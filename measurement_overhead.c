@@ -13,13 +13,15 @@ void readTimeOverhead() {
    printf("\nRead Time Overhead Experiments.\n");
    
    int expNo = 0;
-   uint64_t strt, end, total, aggregate;
+   uint64_t strt, end, total, aggregate = 0;
    int i = 0;
 
    for (; expNo < 10; ++expNo) {
-      strt = end = total = 0;
+      strt  = 0;
+      end   =  0;
+      total = 0;
 
-      for (; i < 1000000; ++i) {
+      for (i = 0; i < 1000000; ++i) {
          strt = rdtsc();
          end = rdtsc();
          total += end - strt;
@@ -28,18 +30,17 @@ void readTimeOverhead() {
       // Output experiment stats.
       total /= 1000000;
       aggregate += total;
-      printf("ExpNo(%d) Total (%f)\n", expNo, total);
+      printf("ExpNo(%d) Total (%" PRIu64 ")\n", expNo, total);
    }
 
-   printf("Aggregate Stats: Avg(%f) STD()", aggregate/expNo );
+   printf("Aggregate Stats: Avg(%" PRIu64 ") STD()\n", aggregate/(uint64_t)expNo );
 }
 
 void loopOverhead() {
-   return NULL;
 }
 
 
 int main() {
-   reatTimeOverhead();
+   readTimeOverhead();
    return 0;
 }

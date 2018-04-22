@@ -9,38 +9,73 @@
 #include "measuretime.c"
 
 void readTimeOverhead() {
-   printf("================================");
+   printf("\n================================");
    printf("\nRead Time Overhead Experiments.\n");
    
-   int expNo = 0;
-   uint64_t strt, end, total, aggregate = 0;
-   int i = 0;
+   int totalExperiments = 10;
+   int runsPerExp = 1000000;
+   float results[totalExperiments];
 
-   for (; expNo < 10; ++expNo) {
+   int expNo, i;
+   uint64_t strt, end, total, aggregate = 0;
+
+   // Simulate experiments.
+   for (expNo = 0; expNo < totalExperiments; ++expNo) {
       strt  = 0;
       end   =  0;
       total = 0;
 
-      for (i = 0; i < 1000000; ++i) {
+      for (i=0; i<runsPerExp; ++i) {
          strt = rdtsc();
          end = rdtsc();
          total += end - strt;
       }
 
       // Output experiment stats.
-      total /= 1000000;
+      total /= runsPerExp;
+      results[expNo] = total;
       aggregate += total;
       printf("ExpNo(%d) Total (%" PRIu64 ")\n", expNo, total);
    }
 
-   printf("Aggregate Stats: Avg(%" PRIu64 ") STD()\n", aggregate/(uint64_t)expNo );
+   printf("Aggregate Stats: Avg(%" PRIu64 ") STD(%f)\n", aggregate / (uint64_t)expNo, std(results, totalExperiments) );
 }
 
 void loopOverhead() {
+   printf("\n================================");
+   printf("\nLoop  Overhead Experiments.\n");
+   
+   int totalExperiments = 10;
+   int runsPerExp = 1000000;
+   float results[totalExperiments];
+
+   int expNo, i;
+   uint64_t strt, end;
+   float total, aggregate = 0;
+
+   // Simulate experiments.
+   for (expNo = 0; expNo < totalExperiments; ++expNo) {
+      strt  = 0;
+      end   =  0;
+      total = 0;
+
+      strt = rdtsc();
+      for (i=0; i<runsPerExp; ++i) { }
+      end = rdtsc();
+
+      total = (end - strt) / runsPerExp;
+      results[expNo] = total;
+      aggregate += total;
+
+      printf("ExpNo(%d) Total (%f)\n", expNo, total);
+   }
+
+   printf("Aggregate Stats: Avg(%f) STD(%f)\n", aggregate/expNo, std(results, totalExperiments) );
 }
 
 
 int main() {
    readTimeOverhead();
+   loopOverhead();
    return 0;
 }

@@ -1,0 +1,94 @@
+\documentclass[sigconf]{acmart}
+
+\settopmatter{printacmref=false} % Removes citation information below abstract
+\renewcommand\footnotetextcopyrightpermission[1]{} % removes footnote with conference information in first column
+\pagestyle{plain} % removes running headers
+
+\usepackage{booktabs} % For formal tables
+\usepackage{hyperref}
+
+\setcopyright{none} % Copyright
+
+
+\begin{document}
+
+\title{OSX System Profiling}
+
+\author{Rebecca McKinley}
+\affiliation{%
+  \institution{University of California, San Diego}
+}
+\email{rmckinle@eng.ucsd.edu}
+
+\author{Daniel Reznikov}
+\affiliation{%
+  \institution{University of California, San Diego}
+}
+\email{drezniko@eng.ucsd.edu}
+
+
+\author{Aaron Trefler}
+\affiliation{%
+  \institution{University of California, San Diego}
+}
+\email{atrefler@eng.ucsd.edu}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+The characteristic meta-challenge of profiling Computer Systems is the ability to isolate system components, control dependencies and optimizations, and to conduct well-defined, repeatable experimentation. The goal of this project is profile the OSX Operation System.
+\end{abstract}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+We seek to measure the performance of our PC system components including CPU, RAM, disk and the network. We implement the supporting experimentation code in the language C as it is low-level enough to allow us to control for many system optimization, and at times to execute raw X86 Assembly instructions.
+
+Our team members contribute equally to each part of the project. For each milestone, we would walk-through the design of each experiment together, and implement equal parts individually. We use Github for source control.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Machine Description
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Machine Description}
+
+Processor: model, cycle time, cache sizes (L1, L2, instruction, data, etc.)
+Memory bus
+I/O bus
+RAM size
+Disk: capacity, RPM, controller cache size
+Network card speed
+Operating system (including version/release)
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Methodology
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conclusion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknoweldgments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{acks}
+
+\end{acks}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliography}
+
+\end{document}

@@ -25,6 +25,7 @@ rdtsc(void) {
 	return (((uint64_t)edx << 32) | eax);
 }
 
+
 // Compute standard of deviation of a list of numbers.
 float std(float data[], size_t numElems) {
 

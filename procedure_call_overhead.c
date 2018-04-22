@@ -10,6 +10,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include<string.h>
 #include <inttypes.h>
 #include "measuretime.c"
 
@@ -24,17 +25,18 @@ void procedure_call_zero_args() {
 
 void run_experiment(nparams) {
     int EXPERIMENTS = 10;
-    int ITERS = 1000000;
-    int expNo = 0;
-    uint64_t strt, end, total, aggregate = 0;
+    int TRIALS = 1000000;
+    
+    int expNo;
+    uint64_t strt, end;
+    float experiment_total;
+    float experiment_results [8][EXPERIMENTS];
 
     // Run experiment
-    for (; expNo < 10; ++expNo) {
-      strt  = 0;
-      end   = 0;
-      total = 0;
+    for (expNo=0; expNo < EXPERIMENTS; ++expNo) {
+        experiment_total = 0;
 
-        for (int i = 0; i < ITERS; ++i) {
+        for (int i = 0; i < TRIALS; ++i) {
             
             switch(nparams) {
             case 0:
@@ -78,14 +80,26 @@ void run_experiment(nparams) {
                 end = rdtsc();
                 break;
             }
-            total += end - strt;
+            experiment_total += (end - strt);
         }
-        // Output experiment results
-        total /= ITERS;
-        aggregate += total;
+        // Save experiment results
+        experiment_results[nparams][expNo] = experiment_total / TRIALS;
     }
-    // Output agregate stats
-   printf("NParams(%d) Aggregate Stats: Avg(%" PRIu64 ") STD()\n", nparams, aggregate/(uint64_t)expNo);
+
+    // Write results to file
+    FILE *fp;
+    int i, j;
+    char filename[100] = "procedure_call_overhead.data";
+
+    fp=fopen(filename, "w+");
+    
+    fprintf(fp, "Experiment, Trial_1, Trial_2, Trial_3, Trial_4, Trial_5, Trial_6, Trial_7, Trial_8, Trial_9, Trial_10");
+    for(i=0; i<8; i++){
+        fprintf(fp,"\n%d",i+1);
+        for(j=0; j<EXPERIMENTS; j++)
+            fprintf(fp, ",%f ", experiment_results[i][j]);
+    }
+    fclose(fp);
 
     return;
 }

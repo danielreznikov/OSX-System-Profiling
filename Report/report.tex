@@ -88,7 +88,7 @@ Operating System          & OSX 10.12                                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CPU Operations}
 \subsection{Read Time Overhead}
-The x86 Instruction Set Architecture (ISA) supports an operation which allows the processor to increment the a register value at every clock cycle. It is well known that, having isolated environment optimizations as described in, a \textbf{\textit{rdtsc()}} method can be implemented in x86 assembly as follows:
+The x86 Instruction Set Architecture (ISA) supports an operation which allows the processor to increment the a register value at every clock cycle. It is well known (\cite{isa}, \cite{intelProfiling}) that, having isolated environment optimizations as described in, a \textbf{\textit{rdtsc()}} method can be implemented in x86 assembly as follows:
 
 
 \begin{figure}[h!]

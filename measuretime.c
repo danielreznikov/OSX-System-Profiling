@@ -23,26 +23,3 @@ rdtsc(void) {
 
 	return (((uint64_t)edx << 32) | eax);
 }
-
-/*
-int main(int argc, char *argv[]) {
-
-    uint64_t s, e;
-    int i = 0;
-    uint64_t total = 0;
-
-    for (i = 0; i < 10000; i++) {
-        B;
-        s = rdtsc();
-        B;
-        e = rdtsc();
-        B;
-
-        total += e - s;
-    }
-
-    printf("s is %" PRIu64 ", e is %" PRIu64 ", e-s: %" PRIu64, s, e, total/10000);
-
-    return 0;
-}
-*/

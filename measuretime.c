@@ -2,9 +2,10 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <unistd.h>
-
+#include <math.h>
 #include <time.h>
 #include <sys/time.h>
+
 
 // OSX only
 #include <mach/mach_time.h>
@@ -24,25 +25,23 @@ rdtsc(void) {
 	return (((uint64_t)edx << 32) | eax);
 }
 
-/*
-int main(int argc, char *argv[]) {
+// Compute standard of deviation of a list of numbers.
+float std(float data[], size_t numElems) {
 
-    uint64_t s, e;
+    float sum = 0.0;
+    float mean = 0.0;
+    float std = 0.0;
     int i = 0;
-    uint64_t total = 0;
 
-    for (i = 0; i < 10000; i++) {
-        B;
-        s = rdtsc();
-        B;
-        e = rdtsc();
-        B;
-
-        total += e - s;
+    for(; i<numElems; ++i) {
+        sum += data[i];
     }
 
-    printf("s is %" PRIu64 ", e is %" PRIu64 ", e-s: %" PRIu64, s, e, total/10000);
+    mean = sum/numElems;
 
-    return 0;
+    for(i=0; i<numElems; ++i)
+        std += pow(data[i] - mean, 2);
+
+    return sqrt(std/numElems);
 }
-*/
+

@@ -13,6 +13,7 @@
 #include<string.h>
 #include <inttypes.h>
 #include "measuretime.c"
+#include "utils.c"
 
 
 void procedure_call_n_args(int n, ...) {
@@ -23,7 +24,8 @@ void procedure_call_zero_args() {
     return;
 }
 
-void run_experiment(nparams) {
+// Run all experiments for a particular procedure
+void run_experiments(nparams) {
     int EXPERIMENTS = 10;
     int TRIALS = 1000000;
     
@@ -87,33 +89,28 @@ void run_experiment(nparams) {
     }
 
     // Write results to file
-    FILE *fp;
-    int i, j;
-    char filename[100] = "procedure_call_overhead.data";
-
-    fp=fopen(filename, "w+");
-    
-    fprintf(fp, "Experiment, Trial_1, Trial_2, Trial_3, Trial_4, Trial_5, Trial_6, Trial_7, Trial_8, Trial_9, Trial_10");
-    for(i=0; i<8; i++){
-        fprintf(fp,"\n%d",i+1);
-        for(j=0; j<EXPERIMENTS; j++)
-            fprintf(fp, ",%f ", experiment_results[i][j]);
-    }
-    fclose(fp);
+    write_results_matrix_procedure_call_overhead_exp("data/procedure_call_overhead.csv", experiment_results);
 
     return;
 }
 
+
+// Run all experiments for all procedures
+void run() {
+    run_experiments(0);
+    run_experiments(1);
+    run_experiments(2);
+    run_experiments(3);
+    run_experiments(4);
+    run_experiments(5);
+    run_experiments(6);
+    run_experiments(7);
+}
+
+
 int main() {
     printf("================================");
     printf("\nProcedure Call Overhead Experiments.\n");
-    run_experiment(0);
-    run_experiment(1);
-    run_experiment(2);
-    run_experiment(3);
-    run_experiment(4);
-    run_experiment(5);
-    run_experiment(6);
-    run_experiment(7);
+    run();
     return 0;
 }

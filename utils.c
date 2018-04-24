@@ -45,21 +45,22 @@ void printStats(float average, float std) {
 
 /* Compute standard of deviation of a list of numbers */
 void stats(float data[], size_t numElems, float *avg, float *std) {
-
     float sum = 0.0;
     float mean = 0.0;
     float squared_err = 0.0;
     int i = 0;
 
-    for(; i<numElems; ++i) {
+    for(; i < numElems; ++i) {
         sum += data[i];
     }
+
+    mean = sum / numElems;
 
     for(i = 0; i < numElems; ++i)
         squared_err += pow(data[i] - mean, 2);
 
     *std = sqrt(squared_err/numElems);
-    *avg = sum/numElems;
+    *avg = mean;
 }
 
 /* Write experiment results to file. Assumes 10 trials per condition */

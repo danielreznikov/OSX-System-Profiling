@@ -14,6 +14,7 @@
 #include "systemcall_overhead.c"
 #include "measurement_overhead.c"
 #include "procedure_call_overhead.c"
+#include "process_thread_creation.c"
 #include "utils.c"
 
 #define EXPERIMENTS 10
@@ -33,6 +34,9 @@ int main() {
 
     /* 4.3 - System Call Overhead */
     measure_systemcall_overhead(EXPERIMENTS, ITERATIONS);
+
+    /* 4.4 - Process/Thread Creation Overhead */
+    measure_thread_overhead(EXPERIMENTS, ITERATIONS);
 
     return 0;
 }

@@ -1,8 +1,9 @@
 CC=gcc
 CLANG=clang
+FLAGS=-lpthread
 
 run: *.c
-	$(CC) driver.c
+	$(CC) -o driver.out driver.c $(FLAGS)
 
 clang: *.c
-	$(CLANG) driver.c
+	$(CLANG) -o driver.out driver.c $(FLAGS)

@@ -1,10 +1,10 @@
-/* 
+/*
  * Authors: Daniel, Rebecca, Aaron
  *
- * 4.1.2 
- * Procedure Call Overhead 
- * 
- * Report as a function of number of integer arguments from 0-7. 
+ * 4.1.2
+ * Procedure Call Overhead
+ *
+ * Report as a function of number of integer arguments from 0-7.
  * What is the increment overhead of an argument?
  */
 
@@ -28,7 +28,7 @@ void procedure_call_zero_args() {
 void run_experiments(nparams) {
     int EXPERIMENTS = 10;
     int TRIALS = 1000000;
-    
+
     int expNo;
     uint64_t strt, end;
     float experiment_total;
@@ -39,7 +39,7 @@ void run_experiments(nparams) {
         experiment_total = 0;
 
         for (int i = 0; i < TRIALS; ++i) {
-            
+
             switch(nparams) {
             case 0:
                 strt = rdtsc();
@@ -108,9 +108,9 @@ void run() {
 }
 
 
-int main() {
-    printf("================================");
-    printf("\nProcedure Call Overhead Experiments.\n");
-    run();
-    return 0;
-}
+// int main() {
+//     printf("================================");
+//     printf("\nProcedure Call Overhead Experiments.\n");
+//     run();
+//     return 0;
+// }

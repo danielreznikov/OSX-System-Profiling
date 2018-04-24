@@ -1,3 +1,6 @@
+#ifndef UTILS_C
+#define UTILS_C
+
 // Write experiment results to file. Assumes 10 trials per condition
 void write_results_matrix_procedure_call_overhead_exp(char filename[100], float experiment_results[8][10]) {
 
@@ -15,7 +18,7 @@ void write_results_matrix_procedure_call_overhead_exp(char filename[100], float 
     }
     fprintf(fp, "\n");
     fclose(fp);
-    
+
     return;
 }
 
@@ -37,6 +40,7 @@ void write_results_array(char filename[100], float experiment_results[10]) {
     }
     fprintf(fp, "\n");
     fclose(fp);
-    
+
     return;
 }
+#endif

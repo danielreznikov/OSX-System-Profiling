@@ -4,11 +4,11 @@
  * Context switch time: Report the time to context switch from one process to another, and from one kernel thread to another. 
  *                      How do they compare? In the past students have found using blocking pipes to be useful for forcing context switches.
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include "measuretime.c"
+#include "utils.c"
 
 int process_context_switch() {
    uint64_t strt, end, total;
@@ -40,7 +40,7 @@ int process_context_switch() {
 int proc_contextswitch_exps(int total_experiments) {
   float results[total_experiments];
   int expNo, res;
-  float std;
+  float avg, std;
 
   for (expNo=0; expNo<total_experiments; expNo++) {
       res = process_context_switch();
@@ -48,9 +48,6 @@ int proc_contextswitch_exps(int total_experiments) {
       printf("\nexpNo(%d) context_switch(%d cylces)\n", expNo, res);
   }
 
-
-  //std = std(resutls, total_experiments, );
-
-  //printf("avg(%f), std(%f)");
-
+  stats(results, total_experiments, &avg, &std)
+  printf("avg(%f), std_err(%f)", avg, std);
 }

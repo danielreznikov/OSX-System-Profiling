@@ -1,4 +1,5 @@
 #include "measuretime.c"
+#include "utils.c"
 
 #define ITERATIONS  10
 #define INPUT       0
@@ -10,7 +11,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
     uint64_t total = 0;
     struct stat statbuf;
     time_t t;
-    float aggregate = 0.0;
+    float avg, std, aggregate = 0.0;
     float results[experiments];
 
     printHeader("4.3 - System Call Overhead");
@@ -83,6 +84,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
         /* Don't take into account first iterations since it's so off */
         printEntry(j, (float) total);
     }
-
-    printStats((float)aggregate / (float)experiments, std(results, experiments));
+    
+    stats(results, experiments, &avg, &std);
+    printStats((float)aggregate / (float)experiments, std);
 }

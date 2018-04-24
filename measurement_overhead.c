@@ -4,10 +4,12 @@
  * Measurement overhead: Report the overhead of reading time, and report the
  * overhead of using a loop to measure many iterations of an operation.
  */
+#include "utils.c"
 
 /* Measures the overhead for reading with rdtsc */
 void readTimeOverhead(int experiments, int iterations) {
    float results[experiments];
+   float avg, std;
    int expNo, i;
    uint64_t strt, end, total, aggregate = 0;
 
@@ -36,12 +38,14 @@ void readTimeOverhead(int experiments, int iterations) {
    }
 
    /* Print average and stdev */
-   printStats((float)aggregate / (float)expNo, std(results, experiments));
+   stats(results, experiments, &avg, &std);
+   printStats((float)aggregate / (float)expNo, std);
 }
 
 /* Measure the overhead of using a loop */
 void loopOverhead(int experiments, int iterations) {
    float results[experiments];
+   float avg, std;
    int expNo, i;
    uint64_t strt, end;
    float total, aggregate = 0;
@@ -68,5 +72,6 @@ void loopOverhead(int experiments, int iterations) {
    }
 
    /* Print average and stdev */
-   printStats(aggregate / (uint64_t)aggregate / expNo, std(results, experiments)) ;
+   stats(results, experiments, &avg, &std);
+   printStats(aggregate / (uint64_t)aggregate / expNo, std);
 }

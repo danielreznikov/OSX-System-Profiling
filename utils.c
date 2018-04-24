@@ -1,7 +1,68 @@
+
+/*
+ * Authors: Daniel Reznikov, Aaaron Trefler, Rebecca McKinley
+ *
+ * Utility functions for project
+*/
 #ifndef UTILS_C
 #define UTILS_C
 
-// Write experiment results to file. Assumes 10 trials per condition
+#include <stdio.h>
+#include <stdint.h>
+#include <inttypes.h>
+#include <unistd.h>
+#include <math.h>
+#include <time.h>
+#include <sys/time.h>
+
+/* OSX includes only */
+#include <mach/mach_time.h>
+#include <mach/mach.h>
+#include <mach/thread_policy.h>
+
+
+/* Prints the header for the output table */
+void printHeader(char *title) {
+    printf("\n==========%s==========\n", title);
+    printf("|==============|============|\n");
+    printf("|  Experiment  |  Overhead  |\n");
+    printf("|==============|============|\n");
+}
+
+/* Prints a single entry of the output table */
+void printEntry(int experimentNumber, uint64_t entry) {
+    printf("|%*s%-8d| %*s%-9" PRIu64 "|\n", 6, " ", experimentNumber, 2, " ", entry);
+}
+
+/* Prints the average and stdev in the format of the output table */
+void printStats(float average, float std) {
+    printf("|--------------|------------|\n");
+    printf("|   Average    | %*s%-10.3f|\n", 1, " ", average);
+    printf("|--------------|------------|\n");
+    printf("|   Std Dev    | %*s%-10.3f|\n", 1, " ", std);
+    printf("|--------------|------------|\n");
+}
+
+/* Compute standard of deviation of a list of numbers */
+void stats(float data[], size_t numElems, float *avg, float *std) {
+
+    float sum = 0.0;
+    float mean = 0.0;
+    float squared_err = 0.0;
+    int i = 0;
+
+    for(; i<numElems; ++i) {
+        sum += data[i];
+    }
+
+    for(i = 0; i < numElems; ++i)
+        squared_err += pow(data[i] - mean, 2);
+
+    *std = sqrt(squared_err/numElems);
+    *avg = sum/numElems;
+}
+
+/* Write experiment results to file. Assumes 10 trials per condition */
 void write_results_matrix_procedure_call_overhead_exp(char filename[100], float experiment_results[8][10]) {
 
     FILE *fp;
@@ -22,8 +83,7 @@ void write_results_matrix_procedure_call_overhead_exp(char filename[100], float 
     return;
 }
 
-
-// Write experiment results to file. Assumes 10 trials were run.
+/* Write experiment results to file. Assumes 10 trials were run. */
 void write_results_array(char filename[100], float experiment_results[10]) {
     int TRIALS = 10;
 
@@ -43,4 +103,5 @@ void write_results_array(char filename[100], float experiment_results[10]) {
 
     return;
 }
+
 #endif

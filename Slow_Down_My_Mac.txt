@@ -1,0 +1,21 @@
+How to Ruin Your MAC
+
+Disable TurboBoost:
+	1. Download this app: https://www.rugarciap.com/turbo-boost-switcher-for-os-x/
+		- Scroll down to the "How to Install" section and choose the
+		free binary application
+
+	2. Open the application
+	3. On your toolbar at the top, click the lightning bolt icon and click
+	Disable TurboBoost
+
+Disable Hyperthreading and Multiple Cores:
+	1. Make sure you have the most updated version of Xcode
+	2. Cmd + Space and search for "Instruments:
+	3. Open up preferences with cmd + ,
+	4. Go to the CPU tab
+	5. Unclick "Hardware Multi-Threading"
+		- This will be clicked again if you restart your computer
+	6. Change cores to 1
+
+

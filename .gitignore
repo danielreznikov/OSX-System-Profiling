@@ -1,7 +1,9 @@
 .DS_Store
 
-a.out
+*.out
+*.swp
 notebooks/.ipynb_checkpoints/*
+
 Report/report.aux
 Report/report.log
 Report/report.out

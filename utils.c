@@ -35,19 +35,19 @@ void printEntry(int experimentNumber, uint64_t entry) {
 }
 
 /* Prints the average and stdev in the format of the output table */
-void printStats(float average, float std) {
+void printStats(double average, double std) {
     printf("|--------------|------------|\n");
-    printf("|   Average    | %*s%-10.3f|\n", 1, " ", average);
+    printf("|   Average    | %*s%-10.3lf|\n", 1, " ", average);
     printf("|--------------|------------|\n");
-    printf("|   Std Dev    | %*s%-10.3f|\n", 1, " ", std);
+    printf("|   Std Dev    | %*s%-10.3lf|\n", 1, " ", std);
     printf("|--------------|------------|\n");
 }
 
 /* Compute standard of deviation of a list of numbers */
-void stats(float data[], size_t numElems, float *avg, float *std) {
-    float sum = 0.0;
-    float mean = 0.0;
-    float squared_err = 0.0;
+void stats(double data[], size_t numElems, double *avg, double *std) {
+    double sum = 0.0;
+    double mean = 0.0;
+    double squared_err = 0.0;
     int i = 0;
 
     for(; i < numElems; ++i) {

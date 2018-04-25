@@ -11,8 +11,8 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
     uint64_t total = 0;
     struct stat statbuf;
     time_t t;
-    float avg, std, aggregate = 0.0;
-    float results[experiments];
+    double avg, std, aggregate = 0.0;
+    double results[experiments];
 
     printHeader("4.3 - System Call Overhead");
 
@@ -77,14 +77,14 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
             }
         }
 
-        total = (total) / (float)(iterations - 1);
+        total = (total) / (double)(iterations - 1);
         aggregate += total;
         results[j] = total;
 
         /* Don't take into account first iterations since it's so off */
-        printEntry(j, (float) total);
+        printEntry(j, (double) total);
     }
     
     stats(results, experiments, &avg, &std);
-    printStats((float)aggregate / (float)experiments, std);
+    printStats((double)aggregate / (double)experiments, std);
 }

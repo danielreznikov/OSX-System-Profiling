@@ -27,7 +27,7 @@ void measure_thread_overhead(uint64_t experiments, uint64_t iterations) {
     void *end;
     uint64_t start;
     int exper = 0, iter = 0, itr_total = 0.0;
-    float exp_total = 0.0, results[experiments], avg = 10.0, std = 199.0;
+    double exp_total = 0.0, results[experiments], avg = 10.0, std = 199.0;
 
     printHeader("4.4 - Thread Creation Overhead");
 
@@ -45,8 +45,8 @@ void measure_thread_overhead(uint64_t experiments, uint64_t iterations) {
         }
 
         /* Save this experimental result into the array */
-        printEntry(exper, (float)itr_total / (float)iterations);
-        results[exper] = (float)itr_total / (float)iterations;
+        printEntry(exper, (double)itr_total / (double)iterations);
+        results[exper] = (double)itr_total / (double)iterations;
     }
 
     /* Get and print out the stats for this experiment */

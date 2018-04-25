@@ -15,6 +15,7 @@
 #include "measurement_overhead.c"
 #include "procedure_call_overhead.c"
 #include "process_thread_creation.c"
+#include "context_switch.c"
 #include "utils.c"
 
 #define EXPERIMENTS 10
@@ -36,7 +37,11 @@ int main() {
     measure_systemcall_overhead(EXPERIMENTS, ITERATIONS);
 
     /* 4.4 - Process/Thread Creation Overhead */
-    measure_thread_overhead(EXPERIMENTS, ITERATIONS);
+    //measure_thread_overhead(EXPERIMENTS, ITERATIONS);
+
+    /* 4.5 - Process/Thread Context Switch Overhead */
+    process_contextswitch_exps(10, 10);
+    thread_contextswitch_exps(10, 10);
 
     return 0;
 }

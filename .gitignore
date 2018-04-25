@@ -1,6 +1,7 @@
 .DS_Store
 
 a.out
+driver.out
 notebooks/.ipynb_checkpoints/*
 Report/report.aux
 Report/report.log

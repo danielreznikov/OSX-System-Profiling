@@ -10,6 +10,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <pthread.h>
 
 #include "systemcall_overhead.c"
 #include "measurement_overhead.c"
@@ -22,7 +23,6 @@
 
 /* Main driver and formatting for project output */
 int main() {
-
     printf("==========CSE 221 Final Project Measurements==========\n");
 
     /* 4.1 - Measurement and Loop Overhead */
@@ -37,6 +37,7 @@ int main() {
 
     /* 4.4 - Process/Thread Creation Overhead */
     measure_thread_overhead(EXPERIMENTS, ITERATIONS);
+    measure_fork_overhead(EXPERIMENTS, ITERATIONS);
 
     return 0;
 }

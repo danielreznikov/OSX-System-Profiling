@@ -7,3 +7,10 @@ run: *.c
 
 clang: *.c
 	$(CLANG) -o driver.out driver.c $(FLAGS)
+
+clean:
+	rm -rf *.o *.out
+
+new:
+	make clean
+	make

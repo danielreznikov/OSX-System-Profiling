@@ -84,7 +84,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
         /* Don't take into account first iterations since it's so off */
         printEntry(j, (float) total);
     }
-    
+
     stats(results, experiments, &avg, &std);
     printStats((float)aggregate / (float)experiments, std);
 }

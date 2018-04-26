@@ -1,7 +1,11 @@
+/*
+ * Final Project | CSE 221 | Spring 2018 | UCSD
+ *
+ * Header file for utils.c. Implements inline reading from rdtsc.
+ */
 #ifndef UTILS_H
 #define UTILS_H
 
-/* Generic include */
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>

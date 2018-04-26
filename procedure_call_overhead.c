@@ -1,11 +1,8 @@
 /*
- * Authors: Daniel, Rebecca, Aaron
+ * Final Project | CSE 221 | Spring 2018 | UCSD
  *
- * 4.1.2
- * Procedure Call Overhead
- *
- * Report as a function of number of integer arguments from 0-7.
- * What is the increment overhead of an argument?
+ * 4.1.2 - Measure the overhead for making a procedure call with varying number
+ * of arguments.
  */
 #include "utils.h"
 #include "driver_1.h"

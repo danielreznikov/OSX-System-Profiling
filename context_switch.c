@@ -1,8 +1,8 @@
 /*
- * Authors: Daniel Reznikov, Aaaron Trefler, Rebecca McKinley
+ * Final Project | CSE 221 | Spring 2018 | UCSD
  *
- * Context switch time: Report the time to context switch from one process to another, and from one kernel thread to another.
- *                      How do they compare? In the past students have found using blocking pipes to be useful for forcing context switches.
+ * 4.1.5 - Measure the overhead of a context switch from process to process
+ * and from thread to thread.
  */
 #include "utils.h"
 #include "driver_1.h"

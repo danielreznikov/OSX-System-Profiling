@@ -1,3 +1,9 @@
+/*
+ * Final Project | CSE 221 | Spring 2018 | UCSD
+ *
+ * Main driver file for 4.1 - CPU Measurements.
+ */
+
 #include "driver_1.h"
 
 #define EXPERIMENTS 10

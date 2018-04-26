@@ -1,3 +1,9 @@
+/*
+ * Final Project | CSE 221 | Spring 2018 | UCSD
+ *
+ * Header file that declares all of the 4.1 measurement code.
+ */
+
 #ifndef DRIVER_1_H
 #define DRIVER_1_H
 

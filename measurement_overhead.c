@@ -1,8 +1,8 @@
 /*
- * Authors: Daniel, Rebecca, Aaron
+ * Final Project | CSE 221 | Spring 2018 | UCSD
  *
- * Measurement overhead: Report the overhead of reading time, and report the
- * overhead of using a loop to measure many iterations of an operation.
+ * 4.1.1 - Measure the overhead of reading the system clock (rdtsc) and
+ * measure the overhead of using a loop.
  */
  #include "utils.h"
  #include "driver_1.h"

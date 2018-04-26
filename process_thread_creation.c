@@ -1,7 +1,11 @@
+/*
+ * Final Project | CSE 221 | Spring 2018 | UCSD
+ *
+ * 4.1.4 - Measure the overhead for creating a new process (fork) and for
+ * creating a new kernel thread (pthread).
+ */
 #include "utils.h"
 #include "driver_1.h"
-
-#define ERR     -1
 
 /* Recordings the ending time of thread creation  */
 void *compute_end_time(void *input) {

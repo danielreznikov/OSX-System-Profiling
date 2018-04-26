@@ -1,7 +1,7 @@
 #include "measuretime.c"
 #include "utils.c"
 
-#define ITERATIONS  10
+// #define ITERATIONS  10
 #define INPUT       0
 #define OUTPUT      1
 #define ERR         -1

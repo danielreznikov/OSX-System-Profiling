@@ -20,7 +20,7 @@
 #include "utils.c"
 
 #define EXPERIMENTS 10
-#define ITERATIONS 10
+#define ITERATIONS 100
 
 /* Main driver and formatting for project output */
 int main() {

@@ -3,10 +3,10 @@ CLANG=clang
 FLAGS=-lpthread
 
 run: *.c
-	$(CC) -o driver.out driver.c $(FLAGS)
+	$(CC) -o 1_driver.out 1_driver.c $(FLAGS)
 
 clang: *.c
-	$(CLANG) -o driver.out driver.c $(FLAGS)
+	$(CLANG) -o 1_driver.out 1_driver.c $(FLAGS)
 
 clean:
 	rm -rf *.o *.out

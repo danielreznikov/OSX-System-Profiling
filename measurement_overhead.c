@@ -8,7 +8,7 @@
  #include "driver_1.h"
 
 /* Measures the overhead for reading with rdtsc */
-void readTimeOverhead(int experiments, int iterations) {
+void measure_read_overhead(int experiments, int iterations) {
    double results[experiments];
    double avg, std;
    int expNo, i;
@@ -45,7 +45,7 @@ void readTimeOverhead(int experiments, int iterations) {
 }
 
 /* Measure the overhead of using a loop */
-void loopOverhead(int experiments, int iterations) {
+void measure_loop_overhead(int experiments, int iterations) {
    double results[experiments];
    double avg, std;
    int expNo, i;

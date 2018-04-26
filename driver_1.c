@@ -11,11 +11,11 @@ int main() {
     printf("==========CSE 221 Final Project Measurements==========\n");
 
     /* 4.1.1 - Measurement and Loop Overhead */
-    readTimeOverhead(EXPERIMENTS, ITERATIONS);
-    loopOverhead(EXPERIMENTS, ITERATIONS);
+    measure_read_overhead(EXPERIMENTS, ITERATIONS);
+    measure_loop_overhead(EXPERIMENTS, ITERATIONS);
 
     /* 4.1.2 - Procedure Call Overhead */
-    run(EXPERIMENTS, ITERATIONS);
+    measure_procedure_overhead(EXPERIMENTS, ITERATIONS);
 
     /* 4.1.3 - System Call Overhead */
     measure_systemcall_overhead(EXPERIMENTS, ITERATIONS);
@@ -25,8 +25,8 @@ int main() {
     measure_fork_overhead(EXPERIMENTS, ITERATIONS);
 
     /* 4.1.5 - Process/Thread Context Switch Overhead */
-    process_contextswitch_exps(10, 10);
-    thread_contextswitch_exps(10, 10);
+    measure_proc_context_switch(EXPERIMENTS, ITERATIONS);
+    measure_thread_context_switch(EXPERIMENTS, ITERATIONS);
 
     return 0;
 }

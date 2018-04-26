@@ -41,7 +41,7 @@ uint64_t process_context_switch() {
 }
 
 /* Run Proccess Context Switch Trials */
-void process_contextswitch_exps(uint64_t total_experiments, uint64_t iterations) {
+void measure_proc_context_switch(uint64_t total_experiments, uint64_t iterations) {
   double results[total_experiments];
   int expNo, i;
   uint64_t res;
@@ -100,7 +100,7 @@ uint64_t thread_context_switch() {
 }
 
 /* Run Thread Context Switch Experiments */
-void thread_contextswitch_exps(int total_experiments, int iterations) {
+void measure_thread_context_switch(int total_experiments, int iterations) {
    int expNo, i;
    uint64_t res;
    double results[total_experiments];

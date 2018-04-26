@@ -86,7 +86,7 @@ void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
 
 
 /* Run all experiments for all procedures */
-void run(uint64_t experiments, uint64_t iterations) {
+void measure_procedure_overhead(uint64_t experiments, uint64_t iterations) {
     printHeader("4.1.2 - Procedure Call Overhead (see data/procedure_call_overhead.csv)");
     run_experiments(0, experiments, iterations);
     run_experiments(1, experiments, iterations);

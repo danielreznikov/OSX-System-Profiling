@@ -10,7 +10,8 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
+#include <inttypes.h>
 #include <inttypes.h>
 #include "measuretime.c"
 #include "utils.c"
@@ -25,20 +26,17 @@ void procedure_call_zero_args() {
 }
 
 // Run all experiments for a particular procedure
-void run_experiments(nparams) {
-    int EXPERIMENTS = 10;
-    int TRIALS = 1000000;
-
+void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
     int expNo;
     uint64_t strt, end;
     float experiment_total;
-    float experiment_results [8][EXPERIMENTS];
+    float experiment_results [8][experiments];
 
     // Run experiment
-    for (expNo=0; expNo < EXPERIMENTS; ++expNo) {
+    for (expNo=0; expNo < experiments; ++expNo) {
         experiment_total = 0;
 
-        for (int i = 0; i < TRIALS; ++i) {
+        for (int i = 0; i < iterations; ++i) {
 
             switch(nparams) {
             case 0:
@@ -85,7 +83,7 @@ void run_experiments(nparams) {
             experiment_total += (end - strt);
         }
         // Save experiment results
-        experiment_results[nparams][expNo] = experiment_total / TRIALS;
+        experiment_results[nparams][expNo] = experiment_total / iterations;
     }
 
     // Write results to file
@@ -96,15 +94,16 @@ void run_experiments(nparams) {
 
 
 // Run all experiments for all procedures
-void run() {
-    run_experiments(0);
-    run_experiments(1);
-    run_experiments(2);
-    run_experiments(3);
-    run_experiments(4);
-    run_experiments(5);
-    run_experiments(6);
-    run_experiments(7);
+void run(uint64_t experiments, uint64_t iterations) {
+    printHeader("4.1.2 - Procedure Call Overhead (see data/procedure_call_overhead.csv)");
+    run_experiments(0, experiments, iterations);
+    run_experiments(1, experiments, iterations);
+    run_experiments(2, experiments, iterations);
+    run_experiments(3, experiments, iterations);
+    run_experiments(4, experiments, iterations);
+    run_experiments(5, experiments, iterations);
+    run_experiments(6, experiments, iterations);
+    run_experiments(7, experiments, iterations);
 }
 
 

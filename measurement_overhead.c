@@ -8,13 +8,13 @@
 
 /* Measures the overhead for reading with rdtsc */
 void readTimeOverhead(int experiments, int iterations) {
-   float results[experiments];
-   float avg, std;
+   double results[experiments];
+   double avg, std;
    int expNo, i;
    uint64_t strt, end, total, aggregate = 0;
 
    /* Print the header */
-   printHeader("4.1 - Measurement Overhead");
+   printHeader("4.1.1 - Measurement Overhead");
 
    /* Simulate experiments */
    for (expNo = 0; expNo < experiments; ++expNo) {
@@ -39,19 +39,19 @@ void readTimeOverhead(int experiments, int iterations) {
 
    /* Print average and stdev */
    stats(results, experiments, &avg, &std);
-   printStats((float)aggregate / (float)expNo, std);
+   printStats((double)aggregate / (double)expNo, std);
 }
 
 /* Measure the overhead of using a loop */
 void loopOverhead(int experiments, int iterations) {
-   float results[experiments];
-   float avg, std;
+   double results[experiments];
+   double avg, std;
    int expNo, i;
    uint64_t strt, end;
-   float total, aggregate = 0;
+   double total, aggregate = 0;
 
    /* Print the header */
-   printHeader("4.1 - Loop Overhead");
+   printHeader("4.1.1 - Loop Overhead");
 
    /* Simulate experiments */
    for (expNo = 0; expNo < experiments; ++expNo) {

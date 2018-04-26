@@ -1,8 +1,11 @@
 .DS_Store
 
 **/*.out
+
 a.out
+*.swp
 notebooks/.ipynb_checkpoints/*
+
 Report/report.aux
 Report/report.log
 Report/report.out

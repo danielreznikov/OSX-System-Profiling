@@ -4,7 +4,7 @@
  * 4.1.2 - Measure the overhead for making a procedure call with varying number
  * of arguments.
  */
-#include "utils.h"
+#include "../utils.h"
 #include "driver_1.h"
 
 /* Functions with varying parameters */

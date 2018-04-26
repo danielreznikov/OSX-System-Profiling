@@ -4,7 +4,7 @@
  * 4.1.5 - Measure the overhead of a context switch from process to process
  * and from thread to thread.
  */
-#include "utils.h"
+#include "../utils.h"
 #include "driver_1.h"
 
 /* Compute cycles to context switch between 2 processes */

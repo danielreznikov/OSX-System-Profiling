@@ -3,7 +3,7 @@
  *
  * 4.1.3 - Measure the overhead for making a system call.
  */
-#include "utils.h"
+#include "../utils.h"
 #include "driver_1.h"
 
 void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {

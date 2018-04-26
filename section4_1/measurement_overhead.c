@@ -4,7 +4,7 @@
  * 4.1.1 - Measure the overhead of reading the system clock (rdtsc) and
  * measure the overhead of using a loop.
  */
- #include "utils.h"
+ #include "../utils.h"
  #include "driver_1.h"
 
 /* Measures the overhead for reading with rdtsc */

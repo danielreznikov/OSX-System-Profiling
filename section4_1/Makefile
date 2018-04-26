@@ -6,12 +6,13 @@ FLAGS=-lpthread -lm
 4_1_3=systemcall_overhead.c
 4_1_4=process_thread_creation.c
 4_1_5=context_switch.c
+UTILS=../utils.c
 
 run: *.c
-	$(CC) -o 1_driver.out driver_1.c $(4_1_1) $(4_1_2) $(4_1_3) $(4_1_4) $(4_1_5) utils.c $(FLAGS)
+	$(CC) -o 1_driver.out driver_1.c $(4_1_1) $(4_1_2) $(4_1_3) $(4_1_4) $(4_1_5) $(UTILS) $(FLAGS)
 
 clang: *.c
-	$(CLANG) -o 1_driver.out driver_1.c $(4_1_1) $(4_1_2) $(4_1_3) $(4_1_4) $(4_1_5) utils.c $(FLAGS)
+	$(CLANG) -o 1_driver.out driver_1.c $(4_1_1) $(4_1_2) $(4_1_3) $(4_1_4) $(4_1_5) $(UTILS) $(FLAGS)
 
 clean:
 	rm -rf *.o *.out

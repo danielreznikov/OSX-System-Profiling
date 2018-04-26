@@ -4,7 +4,7 @@
  * 4.1.4 - Measure the overhead for creating a new process (fork) and for
  * creating a new kernel thread (pthread).
  */
-#include "utils.h"
+#include "../utils.h"
 #include "driver_1.h"
 
 /* Recordings the ending time of thread creation  */

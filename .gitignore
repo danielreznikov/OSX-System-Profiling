@@ -1,6 +1,8 @@
 .DS_Store
 
-*.out
+**/*.out
+
+a.out
 *.swp
 notebooks/.ipynb_checkpoints/*
 

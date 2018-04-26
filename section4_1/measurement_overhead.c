@@ -75,5 +75,5 @@ void measure_loop_overhead(int experiments, int iterations) {
 
    /* Print average and stdev */
    stats(results, experiments, &avg, &std);
-   printStats(aggregate / (uint64_t)aggregate / expNo, std);
+   printStats(aggregate/expNo, std);
 }

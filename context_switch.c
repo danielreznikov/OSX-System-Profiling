@@ -4,12 +4,8 @@
  * Context switch time: Report the time to context switch from one process to another, and from one kernel thread to another.
  *                      How do they compare? In the past students have found using blocking pipes to be useful for forcing context switches.
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <pthread.h>
-#include "measuretime.c"
-#include "utils.c"
+#include "utils.h"
+#include "driver_1.h"
 
 // Compute cycles to context switch between 2 processes.
 uint64_t process_context_switch() {

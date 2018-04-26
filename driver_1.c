@@ -1,26 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <inttypes.h>
-#include <unistd.h>
-#include <time.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <pthread.h>
-
-#include "systemcall_overhead.c"
-#include "measurement_overhead.c"
-#include "procedure_call_overhead.c"
-#include "process_thread_creation.c"
-#include "context_switch.c"
-#include "utils.c"
+#include "driver_1.h"
 
 #define EXPERIMENTS 10
-#define ITERATIONS 100
+#define ITERATIONS 10
 
 /* Main driver and formatting for project output */
 int main() {

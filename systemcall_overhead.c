@@ -1,9 +1,5 @@
-#include "measuretime.c"
-#include "utils.c"
-
-#define INPUT       0
-#define OUTPUT      1
-#define ERR         -1
+#include "utils.h"
+#include "driver_1.h"
 
 void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
     int i = 0, j = 0, pid, fds[2];
@@ -35,7 +31,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
             if (!pid) {                 /* Child process will do the system call */
                 uint64_t start, end, send;
 
-                close(fds[INPUT]);
+                close(fds[READ]);
 
                 /* Do system call operation */
                 start = rdtsc();
@@ -51,17 +47,17 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
                 // printf("in child, send is: %" PRIu64 "\n", send);
 
                 /* Update parent and exit */
-                write(fds[OUTPUT], &send, sizeof(uint64_t));
-                close(fds[OUTPUT]);
+                write(fds[WRITE], &send, sizeof(uint64_t));
+                close(fds[WRITE]);
                 exit(0);
             }
             else {                      /* Parent process will wait for child */
                 uint64_t recv;
 
-                close(fds[OUTPUT]);
+                close(fds[WRITE]);
 
                 /* Read child execution time and update total */
-                read(fds[INPUT], &recv, sizeof(uint64_t));
+                read(fds[READ], &recv, sizeof(uint64_t));
 
                 // printf("in parent, recv is: %" PRIu64 "\n", recv);
 
@@ -72,7 +68,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
 
                 /* Wait and do clean up */
                 wait(&pid);
-                close(fds[INPUT]);
+                close(fds[READ]);
             }
         }
 

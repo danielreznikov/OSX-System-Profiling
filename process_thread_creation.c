@@ -1,3 +1,6 @@
+#include "utils.h"
+#include "driver_1.h"
+
 #define ERR     -1
 
 /* Recordings the ending time of thread creation  */
@@ -63,20 +66,20 @@ void measure_fork_overhead(uint64_t experiments, uint64_t iterations) {
                 end = rdtsc();
 
                 /* Close for clarity, write time measurement to pipe */
-                close(fds[INPUT]);
-                write(fds[OUTPUT], &end, sizeof(uint64_t));
-                close(fds[OUTPUT]);
+                close(fds[READ]);
+                write(fds[WRITE], &end, sizeof(uint64_t));
+                close(fds[WRITE]);
 
                 exit(0);
             }
             else {
                 /* Do some cleanup and wait for child */
-                close(fds[OUTPUT]);
+                close(fds[WRITE]);
                 wait(&pid);
 
                 /* Read from the child and kill the pipe */
-                read(fds[INPUT], &end, sizeof(uint64_t));
-                close(fds[INPUT]);
+                read(fds[READ], &end, sizeof(uint64_t));
+                close(fds[READ]);
 
                 /* Calculate the time to createa a fork */
                 itr_total += (uint64_t)end - start;

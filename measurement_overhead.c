@@ -4,7 +4,8 @@
  * Measurement overhead: Report the overhead of reading time, and report the
  * overhead of using a loop to measure many iterations of an operation.
  */
-#include "utils.c"
+ #include "utils.h"
+ #include "driver_1.h"
 
 /* Measures the overhead for reading with rdtsc */
 void readTimeOverhead(int experiments, int iterations) {

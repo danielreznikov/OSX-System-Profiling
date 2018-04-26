@@ -7,15 +7,8 @@
  * Report as a function of number of integer arguments from 0-7.
  * What is the increment overhead of an argument?
  */
-
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
-#include <inttypes.h>
-#include <inttypes.h>
-#include "measuretime.c"
-#include "utils.c"
-
+#include "utils.h"
+#include "driver_1.h"
 
 void procedure_call_n_args(int n, ...) {
     return;

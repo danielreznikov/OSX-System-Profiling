@@ -17,13 +17,29 @@
 #include "utils.c"
 
 
-void procedure_call_n_args(int n, ...) {
-    return;
-}
+void procedure_call_seven_args(int one, int two, int three, int four, int five, int six, int seven) {return;}
 
-void procedure_call_zero_args() {
-    return;
-}
+
+void procedure_call_six_args(int one, int two, int three, int four, int five, int six) {return;}
+
+
+void procedure_call_five_args(int one, int two, int three, int four, int five) {return;}
+
+
+void procedure_call_four_args(int one, int two, int three, int four) {return;}
+
+
+void procedure_call_three_args(int one, int two, int three) {return;}
+
+
+void procedure_call_two_args(int one, int two) {return;}
+
+
+void procedure_call_one_args(int one) {return;}
+
+
+void procedure_call_zero_args() {return;}
+
 
 // Run all experiments for a particular procedure
 void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
@@ -46,37 +62,37 @@ void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
                 break;
             case 1:
                 strt = rdtsc();
-                procedure_call_n_args(0);
+                procedure_call_one_args(1);
                 end = rdtsc();
                 break;
             case 2:
                 strt = rdtsc();
-                procedure_call_n_args(1, 0);
+                procedure_call_two_args(1, 2);
                 end = rdtsc();
                 break;
             case 3:
                 strt = rdtsc();
-                procedure_call_n_args(2, 0, 0);
+                procedure_call_three_args(1, 2, 3);
                 end = rdtsc();
                 break;
             case 4:
                 strt = rdtsc();
-                procedure_call_n_args(3, 0, 0, 0);
+                procedure_call_four_args(1, 2, 3, 4);
                 end = rdtsc();
                 break;
             case 5:
                 strt = rdtsc();
-                procedure_call_n_args(4, 0, 0, 0, 0);
+                procedure_call_five_args(1, 2, 3, 4, 5);
                 end = rdtsc();
                 break;
             case 6:
                 strt = rdtsc();
-                procedure_call_n_args(5, 0, 0, 0, 0, 0);
+                procedure_call_six_args(1, 2, 3, 4, 5, 6);
                 end = rdtsc();
                 break;
             case 7:
                 strt = rdtsc();
-                procedure_call_n_args(6, 0, 0, 0, 0, 0, 0);
+                procedure_call_seven_args(1, 2, 3, 4, 5, 6, 7);
                 end = rdtsc();
                 break;
             }
@@ -110,6 +126,6 @@ void run(uint64_t experiments, uint64_t iterations) {
 // int main() {
 //     printf("================================");
 //     printf("\nProcedure Call Overhead Experiments.\n");
-//     run();
+//     run(10, 10000000);
 //     return 0;
 // }

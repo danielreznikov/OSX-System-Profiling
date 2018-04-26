@@ -7,43 +7,31 @@
 #include "utils.h"
 #include "driver_1.h"
 
+/* Functions with varying parameters */
 void procedure_call_seven_args(int one, int two, int three, int four, int five, int six, int seven) {return;}
-
-
 void procedure_call_six_args(int one, int two, int three, int four, int five, int six) {return;}
-
-
 void procedure_call_five_args(int one, int two, int three, int four, int five) {return;}
-
-
 void procedure_call_four_args(int one, int two, int three, int four) {return;}
-
-
 void procedure_call_three_args(int one, int two, int three) {return;}
-
-
 void procedure_call_two_args(int one, int two) {return;}
-
-
 void procedure_call_one_args(int one) {return;}
-
-
 void procedure_call_zero_args() {return;}
 
-
-// Run all experiments for a particular procedure
+/* Run all experiments for a particular procedure */
 void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
     int expNo;
     uint64_t strt, end;
     float experiment_total;
     float experiment_results [8][experiments];
 
-    // Run experiment
-    for (expNo=0; expNo < experiments; ++expNo) {
+    /* Run experiment */
+    for (expNo = 0; expNo < experiments; ++expNo) {
         experiment_total = 0;
 
+        /* Run for given iterations */
         for (int i = 0; i < iterations; ++i) {
 
+            /* Run for each function call */
             switch(nparams) {
             case 0:
                 strt = rdtsc();
@@ -88,18 +76,16 @@ void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
             }
             experiment_total += (end - strt);
         }
-        // Save experiment results
+        /* Save experiment results */
         experiment_results[nparams][expNo] = experiment_total / iterations;
     }
 
-    // Write results to file
+    /* Write results to file */
     write_results_matrix_procedure_call_overhead_exp("data/procedure_call_overhead.csv", experiment_results);
-
-    return;
 }
 
 
-// Run all experiments for all procedures
+/* Run all experiments for all procedures */
 void run(uint64_t experiments, uint64_t iterations) {
     printHeader("4.1.2 - Procedure Call Overhead (see data/procedure_call_overhead.csv)");
     run_experiments(0, experiments, iterations);
@@ -112,10 +98,11 @@ void run(uint64_t experiments, uint64_t iterations) {
     run_experiments(7, experiments, iterations);
 }
 
-
-// int main() {
-//     printf("================================");
-//     printf("\nProcedure Call Overhead Experiments.\n");
-//     run(10, 10000000);
-//     return 0;
-// }
+/*
+int main() {
+    printf("================================");
+    printf("\nProcedure Call Overhead Experiments.\n");
+    run(10, 10000000);
+    return 0;
+}
+*/

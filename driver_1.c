@@ -6,9 +6,6 @@
 
 #include "driver_1.h"
 
-#define EXPERIMENTS 10
-#define ITERATIONS 10
-
 /* Main driver and formatting for project output */
 int main() {
     printf("==========CSE 221 Final Project Measurements==========\n");

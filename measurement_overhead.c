@@ -23,6 +23,7 @@ void readTimeOverhead(int experiments, int iterations) {
       end   =  0;
       total = 0;
 
+      /* Run for the given number of iterations */
       for (i = 0; i < iterations; ++i) {
          strt = rdtsc();
          end = rdtsc();

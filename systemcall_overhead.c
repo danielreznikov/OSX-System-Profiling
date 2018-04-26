@@ -3,7 +3,6 @@
  *
  * 4.1.3 - Measure the overhead for making a system call.
  */
-
 #include "utils.h"
 #include "driver_1.h"
 

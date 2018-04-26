@@ -27,6 +27,10 @@
 #include <mach/mach.h>
 #include <mach/thread_policy.h>
 
+/* Constants */
+#define EXPERIMENTS 10
+#define ITERATIONS 10
+
 /* 4.1.1 - Read and Loop Overhead */
 void readTimeOverhead(int experiments, int iterations);
 void loopOverhead(int experiments, int iterations);

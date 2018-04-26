@@ -13,7 +13,7 @@ void measure_thread_overhead(uint64_t experiments, uint64_t iterations) {
     int exper = 0, iter = 0, itr_total = 0.0;
     double exp_total = 0.0, results[experiments], avg = 10.0, std = 199.0;
 
-    printHeader("4.4 - Thread Creation Overhead");
+    printHeader("4.1.4 - Thread Creation Overhead");
 
     for (exper = 0; exper < experiments; exper++) {
         itr_total = 0.0;
@@ -44,7 +44,7 @@ void measure_fork_overhead(uint64_t experiments, uint64_t iterations) {
     int exper = 0, iter = 0, itr_total = 0.0, pid, fds[2];
     double exp_total = 0.0, results[experiments], avg, std;
 
-    printHeader("4.4 - Process Creation Overhead");
+    printHeader("4.1.4 - Process Creation Overhead");
 
     /* Perform multiple experiments on these iterations */
     for (exper = 0; exper < experiments; exper++) {

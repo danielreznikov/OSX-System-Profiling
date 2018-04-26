@@ -14,7 +14,7 @@ void readTimeOverhead(int experiments, int iterations) {
    uint64_t strt, end, total, aggregate = 0;
 
    /* Print the header */
-   printHeader("4.1 - Measurement Overhead");
+   printHeader("4.1.1 - Measurement Overhead");
 
    /* Simulate experiments */
    for (expNo = 0; expNo < experiments; ++expNo) {
@@ -51,7 +51,7 @@ void loopOverhead(int experiments, int iterations) {
    double total, aggregate = 0;
 
    /* Print the header */
-   printHeader("4.1 - Loop Overhead");
+   printHeader("4.1.1 - Loop Overhead");
 
    /* Simulate experiments */
    for (expNo = 0; expNo < experiments; ++expNo) {

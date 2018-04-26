@@ -1,7 +1,6 @@
 #include "measuretime.c"
 #include "utils.c"
 
-// #define ITERATIONS  10
 #define INPUT       0
 #define OUTPUT      1
 #define ERR         -1
@@ -14,7 +13,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
     double avg, std, aggregate = 0.0;
     double results[experiments];
 
-    printHeader("4.3 - System Call Overhead");
+    printHeader("4.1.3 - System Call Overhead");
 
     /* Run multiple experiments on this code */
     for (j = 0; j < experiments; j ++) {

@@ -17,7 +17,7 @@ int main() {
     measure_RAM_bandwidth(EXPERIMENTS, ITERATIONS);
 
     /* 4.2.3 - Page Fault Service Time */
-    measure_page_fault(EXPERIMENTS, ITERATIONS);
+    // measure_page_fault(EXPERIMENTS, ITERATIONS);
 
     return 0;
 }

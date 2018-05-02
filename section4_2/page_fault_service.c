@@ -21,12 +21,12 @@ void measure_page_fault(uint64_t experiments, uint64_t iterations) {
         // Move data into virtual memory using mmap
         void* mmappedData = mmap(NULL, DATA_BYTES, PROT_NONE, MAP_SHARED, fd, 0);
         assert(mmappedData != MAP_FAILED);
-        char *pointer = mmappedData
+        char *pointer = mmappedData;
 
             // Read data into physical memory, which will induce page faults
-            for (int j = 0; j < 10; j++) {}
-                start = rdtsc();
-                char byte = pointer[0]
+            for (int j = 0; j < 10; j++) {
+                strt = rdtsc();
+                char byte = pointer[0];
                 end = rdtsc();
 
                 // seek(page size + 1) or seek(page size + 1)
@@ -43,7 +43,7 @@ void measure_page_fault(uint64_t experiments, uint64_t iterations) {
 
 }
 
-int main() {
-    measure_page_fault(1, 10);
-    return 0;
-}
+// int main() {
+//     measure_page_fault(1, 10);
+//     return 0;
+// }

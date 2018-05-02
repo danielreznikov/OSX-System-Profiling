@@ -8,6 +8,7 @@
 #define DRIVER_2_H
 
 /* Generic includes */
+#include <emmintrin.h>
 #include <inttypes.h>
 #include <pthread.h>
 #include <stdarg.h>

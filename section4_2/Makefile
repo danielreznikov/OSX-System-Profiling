@@ -1,6 +1,6 @@
 CC=gcc
 CLANG=clang
-FLAGS=-lpthread -lm
+FLAGS=-lpthread -lm -O3
 4_1_1=RAM_access_time.c
 4_1_2=RAM_bandwidth.c
 4_1_3=page_fault_service.c

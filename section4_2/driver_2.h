@@ -33,7 +33,6 @@
 /* Constants */
 #define EXPERIMENTS     10
 #define ITERATIONS      10
-#define SYS_MEM_FREQ    1600000000 
 
 /* 4.2.1 - RAM Access Time */
 void measure_RAM_access(uint64_t experiments, uint64_t iterations);

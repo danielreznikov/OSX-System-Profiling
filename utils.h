@@ -11,9 +11,10 @@
 #include <stdio.h>
 
 /* Constants */
-#define ERR         -1
-#define READ        0
-#define WRITE       1
+#define ERR             -1
+#define READ            0
+#define SYS_MEM_FREQ    1600000000
+#define WRITE           1
 
 /* Define a barrier */
 #define B __asm__ __volatile__("" ::: "memory")

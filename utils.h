@@ -6,12 +6,15 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <emmintrin.h>
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
+#include <strings.h>
 
 /* Constants */
 #define ERR             -1
+#define L3_SIZE_B       6291456
 #define READ            0
 #define SYS_MEM_FREQ    1600000000
 #define WRITE           1

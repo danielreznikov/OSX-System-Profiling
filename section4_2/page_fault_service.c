@@ -6,44 +6,74 @@
 #include "../utils.h"
 #include "driver_2.h"
 #include <assert.h>
+#include <unistd.h>
+
+
+static inline uint64_t rdtsc_v2(void) {
+    uint32_t lo, hi;
+    __asm__ __volatile__("xor %%eax, %%eax;" "cpuid;" "rdtsc;": "=a" (lo), "=d" (hi));
+    return (((uint64_t)hi << 32) | lo);
+}
+
 
 /* 4.2.3 - Page Fault Service Time */
-void measure_page_fault(uint64_t experiments, uint64_t iterations) {
-    int DATA_BYTES = 1000000; // based on random.data size
-    uint64_t strt, end;
+void measure_page_fault(uint64_t num_experiments) {
+    unsigned int DATA_BYTES = 1048576; // based on 1MB random.data file
+    
+    float experiment_results [num_experiments];
+    int offset = 0;
+    int total_time;
+    uint64_t end_time, start_time; 
+
+    // Compute memory page information
+    int page_size = getpagesize();
+    int pages_to_read = DATA_BYTES / page_size;
 
     // Get file descriptor
-    int fd = open("random.data", O_RDONLY);
+    int fd = open("random.data", O_RDWR);
 
-    // For each experiment
-    for (int i = 0; i < experiments; i++) {
-
+    // Run an experiment
+    for (int i = 0; i < num_experiments; i++) {
+        offset = 0;
+        total_time = 0;
+        
         // Move data into virtual memory using mmap
         void* mmappedData = mmap(NULL, DATA_BYTES, PROT_NONE, MAP_SHARED, fd, 0);
         assert(mmappedData != MAP_FAILED);
         char *pointer = mmappedData;
 
-            // Read data into physical memory, which will induce page faults
-            for (int j = 0; j < 10; j++) {
-                strt = rdtsc();
-                char byte = pointer[0];
-                end = rdtsc();
+        // Read data into physical memory, which will induce page faults
+        for (int j = 0; j < pages_to_read; j++) {
+            start_time = rdtsc();
+            char byte = pointer[(offset + 1)];
+            end_time = rdtsc();
+            total_time += end_time - start_time;
+            
+            offset += page_size;
+        }
 
-                // seek(page size + 1) or seek(page size + 1)
-            }
+        // Compute average page fault time"
+        /* 
+        Uncomment when numbers are accurate for system running
+        total_time -= LOOP_OVERHEAD;
+        total_time -= READ_TIME_OVERHEAD * 2 * pages_to_read;
+        */
+        experiment_results[i] = total_time / pages_to_read;
 
-            // Compute page fault time = total pages / total cycles
+        // Remove data from virtual memory
+        munmap(pointer, DATA_BYTES);
+        munmap(mmappedData, DATA_BYTES);
 
-            // Save results
-
-        // Remove data from memory and virtual memory
     }
+    close(fd);
 
-    // Output results
-
+    // Write out results
+    write_results_array("results/procedure_call_overhead.csv", experiment_results);
 }
 
-// int main() {
-//     measure_page_fault(1, 10);
-//     return 0;
-// }
+/*
+int main() {
+    measure_page_fault(1);
+    return 0;
+}
+*/

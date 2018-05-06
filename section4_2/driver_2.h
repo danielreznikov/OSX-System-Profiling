@@ -41,6 +41,6 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations);
 void measure_RAM_bandwidth(uint64_t experiments, uint64_t iterations);
 
 /* 4.2.3 - Page Fault Service Time */
-void measure_page_fault(uint64_t experiments, uint64_t iterations);
+void measure_page_fault(uint64_t experiments);
 
 #endif

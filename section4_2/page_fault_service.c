@@ -9,28 +9,24 @@
 #include <unistd.h>
 
 
-static inline uint64_t rdtsc_v2(void) {
-    uint32_t lo, hi;
-    __asm__ __volatile__("xor %%eax, %%eax;" "cpuid;" "rdtsc;": "=a" (lo), "=d" (hi));
-    return (((uint64_t)hi << 32) | lo);
-}
-
-
 /* 4.2.3 - Page Fault Service Time */
 void measure_page_fault(uint64_t num_experiments) {
-    unsigned int DATA_BYTES = 1048576; // based on 1MB random.data file
+    unsigned int DATA_BYTES = 3221225472;  // based on 3GB random.data file
     
     float experiment_results [num_experiments];
-    int offset = 0;
-    int total_time;
+    int offset = 33554432;  // 32MB
+    int stride = 16777216;  // 16MB
+    int pages_to_read = 100;
+    int access_idx, total_time;
     uint64_t end_time, start_time; 
-
-    // Compute memory page information
-    int page_size = getpagesize();
-    int pages_to_read = DATA_BYTES / page_size;
+    
 
     // Get file descriptor
-    int fd = open("random.data", O_RDWR);
+    int fd = open("random.data", O_RDONLY);
+    if (fd < 0) {
+        printf("Failed to open random.data\n");
+        return;
+    }
 
     // Run an experiment
     for (int i = 0; i < num_experiments; i++) {
@@ -43,14 +39,13 @@ void measure_page_fault(uint64_t num_experiments) {
         char *pointer = mmappedData;
 
         // Read data into physical memory, which will induce page faults
+        start_time = rdtsc();
         for (int j = 0; j < pages_to_read; j++) {
-            start_time = rdtsc();
-            char byte = pointer[(offset + 1)];
-            end_time = rdtsc();
-            total_time += end_time - start_time;
-            
-            offset += page_size;
+            char byte = pointer[(((offset + j) * stride) % (DATA_BYTES - 1))];
+            //printf("test\n");
         }
+        end_time = rdtsc();
+        total_time += end_time - start_time;
 
         // Compute average page fault time"
         /* 
@@ -68,12 +63,6 @@ void measure_page_fault(uint64_t num_experiments) {
     close(fd);
 
     // Write out results
-    write_results_array("results/procedure_call_overhead.csv", experiment_results);
+    printf("Page Fault Time: %f\n", experiment_results[0]);
+    //write_results_array("results/page_fault_service.csv", experiment_results);
 }
-
-/*
-int main() {
-    measure_page_fault(1);
-    return 0;
-}
-*/

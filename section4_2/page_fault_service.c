@@ -9,71 +9,69 @@
 #include <unistd.h>
 
 
-static inline uint64_t rdtsc_v2(void) {
-    uint32_t lo, hi;
-    __asm__ __volatile__("xor %%eax, %%eax;" "cpuid;" "rdtsc;": "=a" (lo), "=d" (hi));
-    return (((uint64_t)hi << 32) | lo);
+double execute_page_fault(int offset) {
+    unsigned int DATA_BYTES = 3221225472;  // based on 3GB random.data file
+
+    double page_fault_time, total_time;
+    uint64_t end_time, start_time;
+    
+    // Get file descriptor
+    int fd = open("random.data", O_RDWR);
+    if (fd < 0) {
+        printf("Failed to open random.data\n");
+        return -1;
+    }
+    
+    // Move data into virtual memory using mmap
+    void* mmappedData = (char*) mmap(NULL, DATA_BYTES, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    assert(mmappedData != MAP_FAILED);
+    char* pointer = (char*) mmappedData;
+
+    // Read data into physical memory, which will induce page faults
+    start_time = rdtsc();
+    char byte = pointer[offset];
+    end_time = rdtsc();
+    total_time = end_time - start_time;
+    
+    printf("%c", byte);  // Needed to ensure program performs page faults
+
+    // Compute page fault time"
+    total_time -= LOOP_OVERHEAD;
+    total_time -= READ_TIME_OVERHEAD * 2;
+    page_fault_time = total_time;
+
+    // Clean up
+    munmap(pointer, DATA_BYTES);
+    munmap(mmappedData, DATA_BYTES);
+    close(fd);
+
+    // Display results
+    return page_fault_time;
 }
 
 
 /* 4.2.3 - Page Fault Service Time */
-void measure_page_fault(uint64_t num_experiments) {
-    unsigned int DATA_BYTES = 1048576; // based on 1MB random.data file
-    
-    float experiment_results [num_experiments];
-    int offset = 0;
-    int total_time;
-    uint64_t end_time, start_time; 
+void measure_page_fault(uint64_t num_experiments, uint64_t iterations) {
+    // Hard code these parameters
+    iterations = 1;
+    num_experiments = 10;
 
-    // Compute memory page information
-    int page_size = getpagesize();
-    int pages_to_read = DATA_BYTES / page_size;
+    int STRIDE = 33554432; // 32MB
+    unsigned int DATA_BYTES = 3221225472;  // based on 3GB random.data file
 
-    // Get file descriptor
-    int fd = open("random.data", O_RDWR);
+    double avg, std;
 
-    // Run an experiment
+    double experiment_results [num_experiments];
+    double experiment_time;
+
+    printf("Ignore Output: ");
     for (int i = 0; i < num_experiments; i++) {
-        offset = 0;
-        total_time = 0;
-        
-        // Move data into virtual memory using mmap
-        void* mmappedData = mmap(NULL, DATA_BYTES, PROT_NONE, MAP_SHARED, fd, 0);
-        assert(mmappedData != MAP_FAILED);
-        char *pointer = mmappedData;
-
-        // Read data into physical memory, which will induce page faults
-        for (int j = 0; j < pages_to_read; j++) {
-            start_time = rdtsc();
-            char byte = pointer[(offset + 1)];
-            end_time = rdtsc();
-            total_time += end_time - start_time;
-            
-            offset += page_size;
-        }
-
-        // Compute average page fault time"
-        /* 
-        Uncomment when numbers are accurate for system running
-        total_time -= LOOP_OVERHEAD;
-        total_time -= READ_TIME_OVERHEAD * 2 * pages_to_read;
-        */
-        experiment_results[i] = total_time / pages_to_read;
-
-        // Remove data from virtual memory
-        munmap(pointer, DATA_BYTES);
-        munmap(mmappedData, DATA_BYTES);
-
+            experiment_time = execute_page_fault((STRIDE * i) % DATA_BYTES);
+        experiment_results[i] = experiment_time;
     }
-    close(fd);
 
-    // Write out results
-    write_results_array("results/procedure_call_overhead.csv", experiment_results);
+    printf("\n");
+    stats(experiment_results, num_experiments, &avg, &std);
+    printStats(avg, std);
+    write_results_array("./results/page_fault_service.csv", experiment_results);
 }
-
-/*
-int main() {
-    measure_page_fault(1);
-    return 0;
-}
-*/

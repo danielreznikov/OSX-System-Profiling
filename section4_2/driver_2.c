@@ -11,7 +11,7 @@ int main() {
     printf("==========CSE 221 Final Project Measurements - Section 4.2==========\n");
 
     /* 4.2.1 - RAM Access Time */
-    measure_RAM_access(EXPERIMENTS, ITERATIONS);
+    measure_RAM_access(10, 10000);
 
     /* 4.2.2 - RAM Bandwidth */
     measure_RAM_bandwidth(EXPERIMENTS, ITERATIONS);

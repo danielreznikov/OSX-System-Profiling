@@ -25,7 +25,6 @@ double experiment_iter(int *arr, int arr_sz, uint64_t iterations, int stride_sz)
    for (i = 0; i < iterations; i++) {
       idx = (ptr + stride_sz) % arr_sz;
       ptr = arr[idx];
-      //printf("\n\tIDX(%d)", idx);
    }
 
    end = rdtsc();
@@ -42,6 +41,10 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
    int i, expNo, arr_sz_idx, stride_sz, arr_sz;
    double results[experiments];
 
+   // Output results to filesystem.
+   FILE *fp;
+   fp = fopen("ram_access_time_data.out", "w+");
+
    // Array sizes, 20 values representing 1KB->512MB arrays.
    int OneKB = 1024;
    int num_sizes = 20;
@@ -57,7 +60,9 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
    // Loop over stride sizes.  
    for (int stride_idx = 0; stride_idx < num_sizes; stride_idx++) {
       stride_sz = stride_sizes[stride_idx];
+      
       printf("\nSTRIDE_SIZE(%d)", stride_sz);
+      fprintf(fp, "\nSTRIDE_SIZE(%d)", stride_sz);
 
       // Loop over array size experiments.
       for (arr_sz_idx = 0; arr_sz_idx < num_sizes; arr_sz_idx++) {
@@ -71,10 +76,17 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
             res = experiment_iter(arr, arr_sz, iterations, stride_sz);
             results[expNo] = res;
          }
+         
          stats(results, experiments, &avg, &std);
-         printf("\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f) \n", arr_sz/(long)OneKB, avg, std);
+         
+         printf("\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+               arr_sz/(long)OneKB, avg, std);
+         fprintf(fp, "\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+               arr_sz/(long)OneKB, avg, std);
 
          free(arr);
       }
    }
+
+   fclose(fp);
 }

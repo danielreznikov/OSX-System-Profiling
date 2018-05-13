@@ -16,3 +16,4 @@ Report/report.synctex.gz
 *.ipynb_checkpoints*
 *.dSYM*
 *.data
+*.csv

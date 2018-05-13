@@ -1,11 +1,11 @@
 /*
  * Final Project | CSE 221 | Spring 2018 | UCSD
  *
- * Header file that declares all of the 4.2 measurement code.
+ * Header file that declares all of the 4.4 measurement code.
  */
 
-#ifndef DRIVER_2_H
-#define DRIVER_2_H
+#ifndef DRIVER_4_H
+#define DRIVER_4_H
 
 /* Generic includes */
 #include <emmintrin.h>
@@ -34,13 +34,16 @@
 #define EXPERIMENTS     10
 #define ITERATIONS      10
 
-/* 4.2.1 - RAM Access Time */
-void measure_RAM_access(uint64_t experiments, uint64_t iterations);
+/* 4.4.1 - RAM Access Time */
+void measure_file_cache();
 
-/* 4.2.2 - RAM Bandwidth */
-void measure_RAM_bandwidth(uint64_t experiments, uint64_t iterations);
+/* 4.4.2 - File Read Time */
+void file_read_time();
 
-/* 4.2.3 - Page Fault Service Time */
-void measure_page_fault(uint64_t experiments);
+/* 4.4.3 - Remote File Read Time */
+void remote_file_read_time();
+
+/* 4.4.4 - Contention */
+void contention();
 
 #endif

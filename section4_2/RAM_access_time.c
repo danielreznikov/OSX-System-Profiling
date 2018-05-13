@@ -5,61 +5,88 @@
  */
 #include "../utils.h"
 #include "driver_2.h"
-#define ARRAY_SIZE  1000000
 
-/* Helper method to initialize an array of pointers*/
-void prepare_array(int *arr, int stride_sz)  {
-   for(int i = 0; i < ARRAY_SIZE; i++) {
-      // use of stride size taken from lmbench paper
-      arr[i] = i + stride_sz;
+/* Helper method to initialize an array of pointers */
+void prepare_array(int *arr, int arr_sz)  {
+   for(int i = 0; i < arr_sz; i++) {
+      arr[i] = i;
    }
 }
 
 /* Execute a single experiment, returns avg cycle latency of reading an integer */
-uint64_t experiment_iter(int *arr, uint64_t iterations) {
-   uint64_t total, strt, end;
-   int ptr = 0;
-
+double experiment_iter(int *arr, int arr_sz, uint64_t iterations, int stride_sz) {
+   uint64_t result, strt, end;
+   int i, j, idx, randm, ptr = 0;
+   double total;
+   
    strt = rdtsc();
 
-   for (int i = 0; i < iterations; i++) {
-      ptr = arr[ptr + i];
+   // An iteration is a single ptr update.
+   for (i = 0; i < iterations; i++) {
+      idx = (ptr + stride_sz) % arr_sz;
+      ptr = arr[idx];
    }
 
    end = rdtsc();
 
-   total = (end - strt) -  2*READ_TIME_OVERHEAD;
-   total /= iterations;
-   total -= LOOP_OVERHEAD;
+   result = end - strt;
+   total = (double)result / (double)iterations;
+   //total = total - 2 * READ_TIME_OVERHEAD - LOOP_OVERHEAD;
    return total;
 }
 
 /* 4.2.1 - RAM Access Time */
 void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
-   uint64_t total, res;
-   int strides[] = {1, 2, 4, 16, 32, 64, 128, 256, 512, 1024};
-   int len = sizeof(strides) / sizeof(int);
+   double total, avg, std, res;
+   int i, expNo, arr_sz_idx, stride_sz, arr_sz;
    double results[experiments];
-   double avg, std;
 
+   // Output results to filesystem.
+   FILE *fp;
+   fp = fopen("ram_access_time_data.out", "w+");
+
+   // Array sizes, 20 values representing 1KB->512MB arrays.
+   int OneKB = 1024;
+   int num_sizes = 20;
+   int arr_sizes[num_sizes];
+   int stride_sizes[num_sizes];
+   for (i = 0; i < num_sizes; i++) {
+      arr_sizes[i] = OneKB * pow(2, i);
+      stride_sizes[i] = 10 * pow(2, i);
+   }
+   
    printHeader("4.2.1 - RAM Access Time");
 
-   for (int i = 0; i < len; i++) {
-      int arr[ARRAY_SIZE];
-      prepare_array(arr, strides[i]);
+   // Loop over stride sizes.  
+   for (int stride_idx = 0; stride_idx < num_sizes; stride_idx++) {
+      stride_sz = stride_sizes[stride_idx];
+      
+      printf("\nSTRIDE_SIZE(%d)", stride_sz);
+      fprintf(fp, "\nSTRIDE_SIZE(%d)", stride_sz);
 
-      for (int expNo = 0; expNo < experiments; expNo++) {
-         res = experiment_iter(arr, iterations);
-         results[expNo] = (double)res;
-         total += res;
+      // Loop over array size experiments.
+      for (arr_sz_idx = 0; arr_sz_idx < num_sizes; arr_sz_idx++) {
+         // Instantiate an array of appropriate size.
+         arr_sz = arr_sizes[arr_sz_idx];
+         int *arr = (int*)malloc(arr_sz*sizeof(int));
+         prepare_array(arr, arr_sz);
+
+         // Loop over experiments for statistical precision.
+         for (expNo = 0; expNo < experiments; expNo++) {
+            res = experiment_iter(arr, arr_sz, iterations, stride_sz);
+            results[expNo] = res;
+         }
+         
+         stats(results, experiments, &avg, &std);
+         
+         printf("\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+               arr_sz/(long)OneKB, avg, std);
+         fprintf(fp, "\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+               arr_sz/(long)OneKB, avg, std);
+
+         free(arr);
       }
-
-      stats(results, experiments, &avg, &std);
-
-      printf("\nstride(%d) total(%-9" PRIu64 ") avg(%f) std(%f) \n", strides[i], total, avg, std);
-
    }
 
-
+   fclose(fp);
 }
-

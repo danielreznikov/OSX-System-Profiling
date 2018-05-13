@@ -32,7 +32,8 @@ double execute_page_fault(int offset) {
     char byte = pointer[offset];
     end_time = rdtsc();
     total_time = end_time - start_time;
-    
+
+
     printf("%c", byte);  // Needed to ensure program performs page faults
 
     // Compute page fault time"
@@ -40,10 +41,12 @@ double execute_page_fault(int offset) {
     total_time -= READ_TIME_OVERHEAD * 2;
     page_fault_time = total_time;
 
+
     // Clean up
     munmap(pointer, DATA_BYTES);
     munmap(mmappedData, DATA_BYTES);
     close(fd);
+
 
     // Display results
     return page_fault_time;
@@ -59,10 +62,8 @@ void measure_page_fault(uint64_t num_experiments, uint64_t iterations) {
     int STRIDE = 33554432; // 32MB
     unsigned int DATA_BYTES = 3221225472;  // based on 3GB random.data file
 
-    double avg, std;
-
+    double avg, experiment_time, std;
     double experiment_results [num_experiments];
-    double experiment_time;
 
     printf("Ignore Output: ");
     for (int i = 0; i < num_experiments; i++) {

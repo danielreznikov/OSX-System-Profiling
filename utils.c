@@ -69,7 +69,7 @@ void write_results_matrix_procedure_call_overhead_exp(char filename[100], float 
 }
 
 /* Write experiment results to file. Assumes 10 trials were run. */
-void write_results_array(char filename[100], float experiment_results[10]) {
+void write_results_array(char filename[100], double experiment_results[10]) {
 
     FILE *fp;
     int i, j;

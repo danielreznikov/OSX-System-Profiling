@@ -16,15 +16,16 @@
 #define ERR                                 -1
 #define READ                                 0
 #define WRITE                                1
-#define L3_SIZE_B       6291456
-#define SYS_MEM_FREQ    1600000000
-#define READ_TIME_OVERHEAD                 190
+#define L3_SIZE_B                           6291456
+#define SYS_MEM_FREQ                        1600000000
+#define SYS_FREQ                            1800000000
+#define READ_TIME_OVERHEAD                  190
 #define LOOP_OVERHEAD                       31
-#define SYSCALL_OVERHEAD                162882
-#define PROCESS_CREATE_OVERHEAD        1317487
-#define THREAD_CREATE_OVERHEAD           41011
-#define PROCESS_CONTEXT_SWITCH_OVERHEAD 845000
-#define THREAD_CONTEXT_SWITCH_OVERHEAD   38000
+#define SYSCALL_OVERHEAD                    162882
+#define PROCESS_CREATE_OVERHEAD             1317487
+#define THREAD_CREATE_OVERHEAD              41011
+#define PROCESS_CONTEXT_SWITCH_OVERHEAD     845000
+#define THREAD_CONTEXT_SWITCH_OVERHEAD      38000
 
 /* Define a barrier */
 #define B __asm__ __volatile__("" ::: "memory")

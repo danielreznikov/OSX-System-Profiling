@@ -15,13 +15,13 @@ void measure_file_cache() {
    int read_counter = 0;
 
    // Purge the os file cache.
-   // TODO purge(); 
+   int status = system("sudo purge");
 
    printHeader("4.4.1 - File Cache Size");
 
    // Open data file for reading.
    FILE *fp;
-   fp = fopen("random16.data", "r");
+   fp = fopen("data/random16.data", "rb");
    if (fp == NULL) {
       printf("Cannot open file for data input.\n");
       exit(0);
@@ -29,7 +29,7 @@ void measure_file_cache() {
 
    // Open file for writing results.
    FILE *fpout;
-   fp = fopen("file_cache_size_data.out", "w+");
+   fpout = fopen("data/file_cache_size_data.out", "w+");
    if (fpout == NULL) {
       printf("Cannot open file for data output.\n");
       exit(0);
@@ -41,49 +41,50 @@ void measure_file_cache() {
    long num_blocks = file_size / page_size; 
 
    void *buf = malloc(page_size);
-   double *results = malloc(num_blocks * sizeof(double));
+   double *results = (double *)malloc(num_blocks * sizeof(double));
 
-   // Read one byte to buffer the file in main memory.
-   /*if (fseek(fp, 0, SEEK_END) != 0) {
+   // Read last byte to buffer the file in main memory.
+   if (fseek(fp, 0, SEEK_END) != 0) {
       printf("Cannot seek to end of file.");
       exit(0);
-   }*/
+   }
    char first_byte = fgetc(fp);
 
    // Read a page of data at a time.
    while(1) {
+      // Update cursor and read a page.
+      fseek(fp, -1*(read_counter+1)*page_size, SEEK_END);
       strt = rdtsc();
       ret_code = fread(buf, page_size, 1, fp);
       end = rdtsc();
 
-      // DEBUG TODO REMOVE ME
-      printf("ret_code(%d)", (int)ret_code);
-      fclose(fp);
-      fclose(fpout);
-      free(buf);
-      free(results);
-      exit(0);
-
+      // Read succeeded.
       if (ret_code == 1) {
          bytes += (int)ret_code;
          results[read_counter] = (double)(end - strt);
-         printf("Read(%d) bytes, (%" PRIu64 ") cycles\n",
-               (int)ret_code, end - strt);
-         fprintf(fpout, "Read(%d) bytes, (%" PRIu64 ") cycles\n",
-               (int)ret_code, end - strt);
+         printf("Read(%lu) bytes, (%" PRIu64 ") cycles\n",
+               page_size*(long)ret_code, end - strt);
+         fprintf(fpout, "Read(%lu) bytes, (%" PRIu64 ") cycles\n",
+               page_size*(long)ret_code, end - strt);
          read_counter++;
       }
+      // Read failed.
       else { 
-         if (feof(fp)) 
+         if (feof(fp)) {
             printf("Error reading file. Unexpected EOF\n");
-         else if (ferror(fp))
+            break;  
+         }
+         else if (ferror(fp)) {
             perror("Error reading file.");
+            break;
+         }
       }
       
       if (bytes >= file_size)
          break;
    }
 
+   // Cleanup resources.
    fclose(fp);
    fclose(fpout);
    free(buf);

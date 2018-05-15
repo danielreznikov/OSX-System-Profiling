@@ -12,3 +12,8 @@ Report/report.out
 Report/report.bbl
 Report/report.blg
 Report/report.synctex.gz
+
+*.ipynb_checkpoints*
+*.dSYM*
+*.data
+*.csv

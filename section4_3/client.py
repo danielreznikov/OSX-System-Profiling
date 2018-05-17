@@ -4,6 +4,14 @@ import time
 import numpy as np
 from utils import *
 
+# Grab the server IP
+if (len(sys.argv) < 2):
+    print "Need to enter a valid IP address"
+    exit()
+
+server_ip = sys.argv[1]
+print "Server's IP: %s" %(server_ip)
+
 # Fill in the message buffer with 64 bytes of ASCII
 buf = bytearray()
 for i in range(0, MSG_LEN_BYTES):
@@ -17,7 +25,7 @@ except socket.error as error:
     print "Failed to create a socket: %s" %(error)
 
 # Specify the port to communicate through
-server_addr = ('', 59030)
+server_addr = (server_ip, PORT)
 
 # Listen for packets on this port on this network
 try:

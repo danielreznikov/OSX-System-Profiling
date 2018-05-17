@@ -6,10 +6,11 @@
 #
 import sys
 
-ITERATIONS      = 1
 EXPERIMENTS     = 10
+ITERATIONS      = 1
 MSG_LEN_BYTES   = 64
 NUM_ASCII       = 48
+PORT            = 59030
 S_TO_MS         = 1000
 
 # Prints the header for the output table

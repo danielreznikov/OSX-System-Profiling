@@ -5,6 +5,7 @@
 #
 
 #============================SERVER CODE============================
+# import socket
 import socket
 import sys
 import time
@@ -18,7 +19,8 @@ except socket.error as error:
     print "Failed to create a socket: %s" %(error)
 
 # Specify the port to communicate through
-server_addr = ('', 59030)
+sock_hostname = ''
+server_addr = (sock_hostname, PORT)
 
 # Listen for packets on this port on this network
 try:

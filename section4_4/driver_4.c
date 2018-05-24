@@ -18,6 +18,7 @@ int main() {
     /* 4.4.3 - Remote File Read Time */
 
     /* 4.4.4 - Contention */
+    measure_read_contention();
 
     return 0;
 }

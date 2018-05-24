@@ -80,16 +80,24 @@ void run_sequential_access(char *data_file, int fd, FILE *fptr, int pages, int p
 
 void run_experiment() {
     float PROCESSOR_SPEED = 2.5; // 2.5GHz
-    int NUM_FILES = 1;
+    int NUM_FILES = 5;
     int PAGE_SZ = 4096;  // 4KB
 
     FILE *fptr, *results;
     int fd;
 
     char *data_file[5] = {  // manually set to NUM_FILES valus
-        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_16K.data"};
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_16K.data",
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_32K.data",
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_64K.data",
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_128K.data",
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_1256K.data"};
     int pages_in_file[5] = {  // manually set to NUM_FILES valus
-          16 * 1024 / PAGE_SZ};
+          16 * 1024 / PAGE_SZ,
+          32 * 1024 / PAGE_SZ,
+          64 * 1024 / PAGE_SZ,
+         128 * 1024 / PAGE_SZ,
+         256 * 1024 / PAGE_SZ};
 
     results = fopen("results/file_read_time.csv", "w");
     //Run read access experiments

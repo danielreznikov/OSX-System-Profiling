@@ -48,6 +48,26 @@ void stats(double data[], size_t numElems, double *avg, double *std) {
     *avg = mean;
 }
 
+/* Compute standard of deviation of a list of numbers */
+void stats_long(unsigned long data[], size_t numElems, unsigned long *avg, unsigned long *std) {
+    unsigned long sum = 0.0;
+    unsigned long mean = 0.0;
+    unsigned long squared_err = 0.0;
+    int i = 0;
+
+    for(; i < numElems; ++i) {
+        sum += data[i];
+    }
+
+    mean = sum / numElems;
+
+    for(i = 0; i < numElems; ++i)
+        squared_err += pow(data[i] - mean, 2);
+
+    *std = sqrt(squared_err/numElems);
+    *avg = mean;
+}
+
 /* Write experiment results to file. Assumes 10 trials per condition */
 void write_results_matrix_procedure_call_overhead_exp(char filename[100], float experiment_results[8][10]) {
     FILE *fp;

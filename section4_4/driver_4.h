@@ -35,7 +35,7 @@
 #define ITERATIONS      10
 
 /* 4.4.1 - RAM Access Time */
-void measure_file_cache();
+void measure_file_cache(int iterations);
 
 /* 4.4.2 - File Read Time */
 void file_read_time();

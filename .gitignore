@@ -4,6 +4,7 @@
 
 a.out
 *.swp
+*.pyc
 notebooks/.ipynb_checkpoints/*
 
 Report/report.aux

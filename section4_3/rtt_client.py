@@ -1,3 +1,10 @@
+#
+# Final Project | CSE 221 | Spring 2018 | UCSD
+#
+# 4.3.1 - Round Trip Time client code
+#
+
+#============================CLIENT CODE============================
 import socket
 import sys
 import time
@@ -7,15 +14,10 @@ from utils import *
 # Grab the server IP
 if (len(sys.argv) < 2):
     print "Need to enter a valid IP address"
-    exit()
+    exit(ERR)
 
 server_ip = sys.argv[1]
 print "Server's IP: %s" %(server_ip)
-
-# Fill in the message buffer with 64 bytes of ASCII
-buf = bytearray()
-for i in range(0, MSG_LEN_BYTES):
-    buf.append(NUM_ASCII + i)
 
 # Open up the socket using TCP IPv4
 try:
@@ -23,6 +25,7 @@ try:
     print "Successfully created a socket"
 except socket.error as error:
     print "Failed to create a socket: %s" %(error)
+    exit(ERR)
 
 # Specify the port to communicate through
 server_addr = (server_ip, PORT)
@@ -33,7 +36,13 @@ try:
     print "Successfully connected to port: (%s, %s)" %(server_addr)
 except socket.error as error:
     print "Failed to connect to the port: %s" %(error)
+    exit(ERR)
 
+# ======================ROUND TRIP TIME MEASUREMENT======================
+# Fill in the message buffer with 64 bytes of ASCII
+buf = bytearray()
+for i in range(0, MSG_LEN_BYTES):
+    buf.append(NUM_ASCII + i)
 printHeader("4.3.1 - (Local) Round Trip Time (ms)")
 
 try:

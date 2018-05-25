@@ -1,7 +1,7 @@
 #
 # Final Project | CSE 221 | Spring 2018 | UCSD
 #
-# 4.3.1 - Server setup code
+# 4.3.1 - Round Trip Time server code
 #
 
 #============================SERVER CODE============================
@@ -17,6 +17,7 @@ try:
     print "Successfully created a socket"
 except socket.error as error:
     print "Failed to create a socket: %s" %(error)
+    exit(ERR)
 
 # Specify the port to communicate through
 sock_hostname = ''
@@ -28,6 +29,7 @@ try:
     print "Successfully binded to port: (%s, %s)" %(server_addr)
 except socket.error as error:
     print "Failed to bind the socket: %s" %(error)
+    exit(ERR)
 
 # Block to let the socket listen for incoming packets - only allow one connection
 try:
@@ -35,10 +37,12 @@ try:
     print "Server is set to listen"
 except socket.error as error:
     print "Socket failed to listen: %s" %(error)
+    exit(ERR)
 
 # Set up the connection
 connection, client_addr = sock.accept()
 
+# ======================ROUND TRIP TIME MEASUREMENT======================
 try:
     # print "Received a packet from: (%s, %s)" %(client_addr)
 
@@ -57,23 +61,5 @@ try:
 finally:
     # Clean up the connection
     connection.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 print "Done with program"

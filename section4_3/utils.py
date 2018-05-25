@@ -6,8 +6,14 @@
 #
 import sys
 
+ACK_LEN_B       = 3
+MB_SENT         = 300
+B_TO_MB         = 1048576
+BWD_MSG_LEN_B   = 1048576*MB_SENT
+END_TIME_B      = 13
+ERR             = -1
 EXPERIMENTS     = 10
-ITERATIONS      = 1
+ITERATIONS      = 10
 MSG_LEN_BYTES   = 64
 NUM_ASCII       = 48
 PORT            = 59030

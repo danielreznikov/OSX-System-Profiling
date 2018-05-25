@@ -1,4 +1,4 @@
 #!bin/sh
 
-# radmon.data should be a kilobyte large
-dd if=/dev/urandom of=random16.data bs=1024 count=16777216
+# random.data should be a kilobyte large, file size is 8MB
+dd if=/dev/urandom of=data/data_proc$1 bs=1024 count=8192

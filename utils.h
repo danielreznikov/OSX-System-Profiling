@@ -47,6 +47,7 @@ void printStats(double average, double std);
 
 /* Calculating statistics */
 void stats(double data[], size_t numElems, double *avg, double *std);
+void stats_long(unsigned long data[], size_t numElems, unsigned long *avg, unsigned long *std);
 
 /* 4.1.2 utility calls */
 void write_results_matrix_procedure_call_overhead_exp(char filename[100],

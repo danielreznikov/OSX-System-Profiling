@@ -33,7 +33,6 @@ double execute_page_fault(int offset) {
     end_time = rdtsc();
     total_time = end_time - start_time;
 
-
     printf("%c", byte);  // Needed to ensure program performs page faults
 
     // Compute page fault time"
@@ -41,12 +40,10 @@ double execute_page_fault(int offset) {
     total_time -= READ_TIME_OVERHEAD * 2;
     page_fault_time = total_time;
 
-
     // Clean up
     munmap(pointer, DATA_BYTES);
     munmap(mmappedData, DATA_BYTES);
     close(fd);
-
 
     // Display results
     return page_fault_time;

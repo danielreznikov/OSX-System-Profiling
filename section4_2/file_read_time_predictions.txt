@@ -1,0 +1,19 @@
+File Read Time Predictions
+
+10 GB/1 = 4kb/x  # 10GB/s is RAM Bandwidth
+
+10 kb/us = 4kb/x
+
+x * 10kb = 4kb
+
+x = 4kb / 10kb
+
+x = 0.4us # time to read a block in memory
+
+-----
+# 220 micro seconds is page fault time
+(220 + 7  * 50.4) / 8 = 71.6
+(220 + 15 * 50.4) / 16 = 61
+(220 + 31 * 50.4) / 32 = 55.7
+(220 + 63 * 50.4) / 64 = 53.05
+

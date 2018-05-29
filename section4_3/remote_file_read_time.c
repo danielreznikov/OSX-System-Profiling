@@ -91,7 +91,7 @@ void run_experiment() {
         "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_32K.data",
         "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_64K.data",
         "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_128K.data",
-        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_1256K.data"};
+        "/Volumes/Daniel Reznikov's Public Folder/data_4_3/random_256K.data"};
     int pages_in_file[5] = {  // manually set to NUM_FILES valus
           16 * 1024 / PAGE_SZ,
           32 * 1024 / PAGE_SZ,
@@ -99,7 +99,7 @@ void run_experiment() {
          128 * 1024 / PAGE_SZ,
          256 * 1024 / PAGE_SZ};
 
-    results = fopen("results/file_read_time.csv", "w");
+    results = fopen("results/remote_file_read_time.csv", "w");
     //Run read access experiments
     for (int i = 0; i < NUM_FILES; i++) {
         fptr = fopen(data_file[i], "r");

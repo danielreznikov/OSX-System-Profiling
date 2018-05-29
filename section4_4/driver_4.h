@@ -36,10 +36,10 @@
 void measure_file_cache(int iterations);
 
 /* 4.4.2 - File Read Time */
-void file_read_time();
+// moved to seperate directory
 
 /* 4.4.3 - Remote File Read Time */
-void remote_file_read_time();
+// moved to seperate directory
 
 /* 4.4.4 - Contention */
 void measure_read_contention();

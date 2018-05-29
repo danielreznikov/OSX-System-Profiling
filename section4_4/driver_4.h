@@ -8,14 +8,12 @@
 #define DRIVER_4_H
 
 /* Generic includes */
-#include <emmintrin.h>
 #include <fcntl.h>
-#include <inttypes.h>
 #include <pthread.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
@@ -44,6 +42,6 @@ void file_read_time();
 void remote_file_read_time();
 
 /* 4.4.4 - Contention */
-void contention();
+void measure_read_contention();
 
 #endif

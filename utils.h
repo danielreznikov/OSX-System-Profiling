@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <strings.h>
+#include <errno.h>
 
 /* Constants */
 #define ERR                                 -1

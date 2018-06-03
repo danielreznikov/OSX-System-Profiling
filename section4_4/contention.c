@@ -1,152 +1,118 @@
 /*
  * Final Project | CSE 221 | Spring 2018 | UCSD
- * 
+ *
  * Authors - Daniel Reznikov, Aaron Trefler, Rebecca McKinley
- * 
- * Section 4.4.4 - Contention: Report the average time to read one file system block of 
- *                 data as a function of the number of processes simultaneously performing 
- * 					 the same operation on different files on the same disk (and not in the 
+ *
+ * Section 4.4.4 - Contention: Report the average time to read one file system block of
+ *                 data as a function of the number of processes simultaneously performing
+ * 					 the same operation on different files on the same disk (and not in the
  * 					 file buffer cache).
  */
 
 #include "../utils.h"
 #include "driver_4.h"
+#include <pthread.h>
+#include "Pthread_Barrier.h"
 
-/* Child process entry point, returns time to read. */
-unsigned long runChildProcess(int proc_num) {
-	int bytes_to_read = 4 * pow(2,10); // 4KB
-   int blocks_to_read = 128; // 128 4KB blocks in a 512KB file.
-   int offset = 0;
-   uint64_t strt, end, total = 0;
-   
-   //int locatations[128];
-   //for (int i = 0; i < 128; i++) {
-   //   locations[i]
-   //}
+pthread_barrier_t barrier;
+int read_size = 4*1024;
+int file_size = 512*1024;
 
-   // Purge the OS file cache.
-   system("sudo purge");
+/* Each thread will execute this  */
+void *run_thread(void *input) {
+    int i, fds, file_id, open_ret, offset;
+    int blocks_per_file = file_size / read_size;
+    char filename[100] = {0}, gen_data_script[100] = {0}, *buf;
+    uint64_t start, end, total_time = 0;
 
-   FILE *fp;
-   char fname[100] = {0};
-   sprintf(fname, "data/data_proc%d", proc_num); 
-   fp = fopen(fname, "r");
-   if (fp == NULL){
-      printf("DEBUG: fp is null, errorno(%s)\n", strerror(errno));
-   }
+    /* Extract this thread's file to read */
+    file_id = (int)input;
+    sprintf(filename, "data/data_proc%d", file_id);
 
-   // Disable file caching.
-   if (fcntl(fileno(fp), F_NOCACHE, 1) == -1)
-      printf("FAILED to disable cache.\n");
+    /* Generate your test file */
+    sprintf(gen_data_script, "sh generate_data.sh %d &>/dev/null", file_id);
+    system(gen_data_script);
 
-   void *buf = malloc(bytes_to_read);
+    /* Open up the file */
+    fds = open(filename, O_RDONLY);
+    if (fds == ERR) {
+       printf("Error opening file %s, error: %s\n", filename, strerror(errno));
+    }
 
-   for (int i = blocks_to_read; i > 0; i--) {
-      offset = -1 * i * bytes_to_read;
-      fseek(fp, offset, SEEK_END);
+    /* Disable the file cache */
+    system("sudo purge");
 
-      strt = rdtsc();
-      int status = fread(buf, bytes_to_read, 1, fp);
-      end = rdtsc();
+    if (fcntl(fds, F_NOCACHE, 1) == ERR) {
+        printf("Did not disable the file cache\n");
+    }
 
-      if (status == 0)
-         printf("DEBUG: fread returned 0, i(%d)\n", i);
+    /* Create a buffer for reading 4KB which is one page */
+    buf = malloc(sizeof(char) * read_size);
 
-      total += (end - strt);
-   }
+    /* Wait for everyone before doing your reading */
+    pthread_barrier_wait(&barrier);
+
+    /* Start the timer and do the read */
+    for (i = 0; i < blocks_per_file; i++) {
+
+        offset = -1 * i * read_size;
+        lseek(fds, offset, SEEK_END);
+
+        start = rdtsc();
+        int status = read(fds, buf, read_size);
+        end = rdtsc();
 
 
-   fclose(fp);
-   free(buf);
+        total_time += end - start;
+    }
 
-   return (unsigned long)(total / blocks_to_read);
-}
+    /* Free up everything */
+    free(buf);
+    close(fds);
 
-/* Spawn contending procs, return averaged measured read time */
-unsigned long experiment_iter(int num_processes) {
-	pid_t childpids[num_processes];
-	unsigned long results[num_processes];
-   unsigned long avg, std, res;
-	int fds[num_processes][2];
+    /* Delete the file you created */
+    remove(filename);
 
-	for (int i = 0; i < num_processes; i++) {
-		// Generate an 512KB file for this proc to read from.
-      char gen_data_script[100] = {0};
-      sprintf(gen_data_script, "sh generate_data.sh %d &>/dev/null", i); 
-		system(gen_data_script);
-
-		// Create a communication channel between parent and child.
-		pipe(fds[i]);		
-
-		if ((childpids[i] = fork()) < 0) {
-         perror("fork");
-         //abort();
-         exit(-1);
-      }
-      else if (childpids[i] == 0) {
-         close(fds[i][READ]);
-         res = runChildProcess(i);
-         write(fds[i][WRITE], &res, sizeof(res));
-         close(fds[i][WRITE]);
-         exit(0);
-      }
-
-      close(fds[i][WRITE]);
-   }
-
-   // Wait for children to exit. 
-   int idx, status = 0;
-   int running_children = num_processes;
-   pid_t pid;
-   for (idx = 0; idx < num_processes; idx++) {
-      pid = wait(&status);
-      if (pid < 0)
-         perror("wait");
-      printf("Child with PID %ld exited with status 0x%x.\n", (long)pid, status);
-   }
-
-   // Parent reads data from children pipes.
-   for (int j = 0; j < num_processes; j++) {
-	   read(fds[j][READ], &(results[j]), sizeof(unsigned long));
-      close(fds[j][READ]);
-      printf("DEBUG: results[%d] = %lu\n", j, results[j]);
-   }
-   
-	// Aggregate results.
-   stats_long(results, 1, &avg, &std);
-   int max = 0;
-   for (int i=0; i<num_processes; i++) {
-      if (results[i] > max)
-         max = results[i];
-   }
-
-   // Cleanup files.
-	for (int i = 0; i < num_processes; i++) {
-      char fname[100] = {0};
-      sprintf(fname, "data/data_proc%d", i); 
-      remove(fname);
-   }
-
-   return max;
+    /* Return how long it took you to read one block */
+    return (void *)total_time;
 }
 
 /* Driver for Contention experiment */
 void measure_read_contention() {
-	int num_processes;
-	int contention_list[] = {1, 2, 4, 8, 16, 32, 64};//TODO , 128, 256, 512, 1024};
-	int num_experiments = sizeof(contention_list) / sizeof(int);
-	unsigned long results[num_experiments];
-	unsigned long res;
+    int proc, total_proc;
+    pthread_t *threads;
+    void *measured_time, *proc_ndx;
+    int blocks_per_file = file_size / read_size;
+    uint64_t start, end;
 
-	printHeader("4.4.4 - Contention Read Time");
+    for (total_proc = 0; total_proc < 11; total_proc++) {
 
-	for (int i = 0; i < num_experiments; i++) {
-		num_processes = contention_list[i];
-      printf("\n");  
-		res = experiment_iter(num_processes);
-		results[i] = res;		
-		printf("Contending Procs(%d), Read Time(%lu)\n", num_processes, res);
-	}
+        /* Malloc for the number of threads you want */
+        threads = (pthread_t *)malloc(sizeof(pthread_t) * total_proc);
+
+        /* Initialize the barrier for all threads */
+        pthread_barrier_init(&barrier, NULL, total_proc);
+
+        start = rdtsc();
+
+        /* Start as many threads as you want processors */
+        for (proc = 0; proc < total_proc; proc++) {
+            pthread_create(threads + proc, NULL, run_thread, (void *)proc);
+        }
+
+        /* Join all of the threads */
+        for (proc = 0; proc < total_proc; proc++) {
+            pthread_join(*(threads + proc), &measured_time);
+            // printf("Thread's measured time was: %f micro seconds\n", ((uint64_t)measured_time / (uint64_t)1.8) * 0.001);
+            // printf("Thread's measured time was %f ms\n", ((uint64_t)measured_time / (double)blocks_per_file) / (1.8 * pow(10, 6)));
+        }
+
+        end = rdtsc();
+
+        printf("total execution per proc is %f seconds\n", ((end - start) / (double)total_proc) / (1.8 * pow(10, 9)));
+
+        free(threads);
+
+        printf("\n\n");
+    }
 }
-
-

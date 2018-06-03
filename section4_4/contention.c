@@ -9,6 +9,10 @@
  * 					 file buffer cache).
  */
 
+/*
+ * Barrier implementation from here: http://blog.albertarmea.com/post/47089939939/using-pthreadbarrier-on-mac-os-x
+ */
+
 #include "../utils.h"
 #include "driver_4.h"
 #include <pthread.h>

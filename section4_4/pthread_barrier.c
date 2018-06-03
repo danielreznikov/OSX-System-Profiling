@@ -1,3 +1,6 @@
+/*
+ * Barrier implementation from here: http://blog.albertarmea.com/post/47089939939/using-pthreadbarrier-on-mac-os-x
+ */
 #include "pthread_barrier.h"
 
 int pthread_barrier_init(pthread_barrier_t *barrier, const pthread_barrierattr_t *attr, unsigned int count)

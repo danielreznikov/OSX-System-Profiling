@@ -87,7 +87,7 @@ void measure_read_contention() {
     pthread_t *threads;
     void *measured_time, *proc_ndx;
     int blocks_per_file = file_size / read_size;
-    uint64_t start, end;
+    uint64_t start, end, total;
 
     for (total_proc = 0; total_proc < 11; total_proc++) {
 
@@ -113,7 +113,12 @@ void measure_read_contention() {
 
         end = rdtsc();
 
-        printf("total execution per proc is %f seconds\n", ((end - start) / (double)total_proc) / (1.8 * pow(10, 9)));
+        total = end - start;
+        total -= READ_TIME_OVERHEAD;
+        total -= (total_proc * THREAD_CREATE_OVERHEAD);
+        total -= (total_proc * THREAD_CONTEXT_SWITCH_OVERHEAD);
+
+        printf("total execution per proc is %f seconds\n", (total / (double)total_proc) / (1.8 * pow(10, 9)));
 
         free(threads);
 

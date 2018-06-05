@@ -18,7 +18,7 @@ double experiment_iter(int *arr, int arr_sz, uint64_t iterations, int stride_sz)
    uint64_t result, strt, end;
    int i, j, idx, randm, ptr = 0;
    double total;
-   
+
    strt = rdtsc();
 
    // An iteration is a single ptr update.
@@ -30,8 +30,9 @@ double experiment_iter(int *arr, int arr_sz, uint64_t iterations, int stride_sz)
    end = rdtsc();
 
    result = end - strt;
+   result -= (iterations * READ_TIME_OVERHEAD);
+   result -= (iterations * LOOP_OVERHEAD);
    total = (double)result / (double)iterations;
-   //total = total - 2 * READ_TIME_OVERHEAD - LOOP_OVERHEAD;
    return total;
 }
 
@@ -54,13 +55,13 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
       arr_sizes[i] = OneKB * pow(2, i);
       stride_sizes[i] = 10 * pow(2, i);
    }
-   
+
    printHeader("4.2.1 - RAM Access Time");
 
-   // Loop over stride sizes.  
+   // Loop over stride sizes.
    for (int stride_idx = 0; stride_idx < num_sizes; stride_idx++) {
       stride_sz = stride_sizes[stride_idx];
-      
+
       printf("\nSTRIDE_SIZE(%d)", stride_sz);
       fprintf(fp, "\nSTRIDE_SIZE(%d)", stride_sz);
 
@@ -76,12 +77,12 @@ void measure_RAM_access(uint64_t experiments, uint64_t iterations) {
             res = experiment_iter(arr, arr_sz, iterations, stride_sz);
             results[expNo] = res;
          }
-         
+
          stats(results, experiments, &avg, &std);
-         
-         printf("\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+
+         printf("\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)",
                arr_sz/(long)OneKB, avg, std);
-         fprintf(fp, "\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)", 
+         fprintf(fp, "\n\tARRAY_SIZE(%luKB), AVG(%lf), STD(%f)",
                arr_sz/(long)OneKB, avg, std);
 
          free(arr);

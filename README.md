@@ -17,28 +17,28 @@ nice -n -20 ./2_driver.out
 ```
 ### Network Measurements
 ### Local Server
-Open another new terminal  
+Open new terminal  
 ```
 cd section4_3/  
 python XYZ_server.py  
 ```
 XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
 ### Local Client
-Open a new terminal  
+Open another new terminal  
 ```
 cd section4_3/  
 python XYZ_client.py 127.0.0.1 
 ```
 XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
 ### Remote Server
-Open another new terminal  
+Open new terminal  
 ```
 cd section4_3/  
 python XYZ_server.py  
 ```
 XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
 ### Remote Client
-Open a new terminal  
+Open another new terminal  
 ```
 cd section4_3/  
 python XYZ_client.py IP_ADDR 

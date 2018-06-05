@@ -3,18 +3,51 @@ By Rebecca McKinley (mckinleyrebecca), Daniel Reznikov (danielreznikov), and Aar
 
 ## Running Measurements
 ### Running CPU measurements
-cd section4_1/
-mkdir data
-make
+```
+cd section4_1/  
+mkdir data  
+make  
 nice -n -20 ./1_driver.out
+```
 ### Memory Measurements
-cd section4_2/
-make
+```
+cd section4_2/  
+make  
 nice -n -20 ./2_driver.out
+```
 ### Network Measurements
-cd section4_3/
-
+### Local Server
+Open another new terminal  
+```
+cd section4_3/  
+python XYZ_server.py  
+```
+XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
+### Local Client
+Open a new terminal  
+```
+cd section4_3/  
+python XYZ_client.py 127.0.0.1 
+```
+XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
+### Remote Server
+Open another new terminal  
+```
+cd section4_3/  
+python XYZ_server.py  
+```
+XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
+### Remote Client
+Open a new terminal  
+```
+cd section4_3/  
+python XYZ_client.py IP_ADDR 
+```
+XYZ is the name of the experiment you want to run: bandwidth, connection, or rtt  
+IP_ADDR is found by going into Network Preferences and using your listed IP on your WiFi
 ### File System Measurements
+```
 cd section4_4/
 make
 nice -n -20 ./4_driver.out
+```

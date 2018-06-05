@@ -78,6 +78,7 @@ void measure_systemcall_overhead(uint64_t experiments, uint64_t iterations) {
         }
 
         total = (total) / (double)(iterations - 1);
+        total -= READ_TIME_OVERHEAD;
         aggregate += total;
         results[j] = total;
 

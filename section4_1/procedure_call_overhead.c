@@ -78,6 +78,7 @@ void run_experiments(int nparams, uint64_t experiments, uint64_t iterations) {
         }
         /* Save experiment results */
         experiment_results[nparams][expNo] = experiment_total / iterations;
+        experiment_results[nparams][expNo] -= READ_TIME_OVERHEAD;
     }
 
     /* Write results to file */
@@ -97,12 +98,3 @@ void measure_procedure_overhead(uint64_t experiments, uint64_t iterations) {
     run_experiments(6, experiments, iterations);
     run_experiments(7, experiments, iterations);
 }
-
-/*
-int main() {
-    printf("================================");
-    printf("\nProcedure Call Overhead Experiments.\n");
-    run(10, 10000000);
-    return 0;
-}
-*/

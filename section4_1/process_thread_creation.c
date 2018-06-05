@@ -38,6 +38,7 @@ void measure_thread_overhead(uint64_t experiments, uint64_t iterations) {
         /* Save this experimental result into the array */
         printEntry(exper, (double)itr_total / (double)iterations);
         results[exper] = (double)itr_total / (double)iterations;
+        results[exper] -= READ_TIME_OVERHEAD;
     }
 
     /* Get and print out the stats for this experiment */
@@ -93,6 +94,7 @@ void measure_fork_overhead(uint64_t experiments, uint64_t iterations) {
         /* Save this experimental result into the array */
         printEntry(exper, (double)itr_total / (double)iterations);
         results[exper] = (double)itr_total / (double)iterations;
+        results[exper] -= READ_TIME_OVERHEAD;
     }
 
     /* Get and print out the stats for this set of experiments */

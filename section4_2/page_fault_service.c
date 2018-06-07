@@ -14,14 +14,14 @@ double execute_page_fault(int offset) {
 
     double page_fault_time, total_time;
     uint64_t end_time, start_time;
-    
+
     // Get file descriptor
     int fd = open("random.data", O_RDWR);
     if (fd < 0) {
         printf("Failed to open random.data\n");
         return -1;
     }
-    
+
     // Move data into virtual memory using mmap
     void* mmappedData = (char*) mmap(NULL, DATA_BYTES, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     assert(mmappedData != MAP_FAILED);
@@ -32,6 +32,7 @@ double execute_page_fault(int offset) {
     char byte = pointer[offset];
     end_time = rdtsc();
     total_time = end_time - start_time;
+    total_time -= READ_TIME_OVERHEAD;
 
     printf("%c", byte);  // Needed to ensure program performs page faults
 

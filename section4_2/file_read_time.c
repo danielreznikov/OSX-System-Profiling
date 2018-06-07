@@ -17,7 +17,7 @@ void _print_time_metrics(char *access_type, char *data_file, FILE *output_file, 
     fprintf(output_file, " , Total micro seconds, %f \n", (float)total_time / processor_speed * 0.001);
 }
 
-void run_random_access(char *data_file, int fd, FILE *fptr, int pages, int page_sz, 
+void run_random_access(char *data_file, int fd, FILE *fptr, int pages, int page_sz,
                     FILE *output_file, float processor_speed) {
     char ch;
     int end_time, i, offset, start_time, total_time;
@@ -44,7 +44,8 @@ void run_random_access(char *data_file, int fd, FILE *fptr, int pages, int page_
 
         printf("Character read: '%c'", ch);
         total_time = end_time - start_time;
-        _print_time_metrics("random", data_file, output_file, processor_speed, total_time); 
+        total_time -= READ_TIME_OVERHEAD;
+        _print_time_metrics("random", data_file, output_file, processor_speed, total_time);
         fseek(fptr, random_page[i] * page_sz, 1);  // set offset to next random page
     }
 }

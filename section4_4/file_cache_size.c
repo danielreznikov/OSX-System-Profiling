@@ -1,8 +1,8 @@
 /*
  * Final Project | CSE 221 | Spring 2018 | UCSD
- * 
+ *
  * Authors - Daniel Reznikov, Aaron Trefler, Rebecca McKinley
- * 
+ *
  * Section 4.4.1 - Measure Size of File Cache
  */
 #include "../utils.h"
@@ -37,7 +37,7 @@ void experiment(double bytes_to_read, int iterations, unsigned long *results) {
       // Purge the OS file cache.
       int status = system("sudo purge");
 
-      // Read from cursor. 
+      // Read from cursor.
       fseek(fp, offset, SEEK_END);
       strt = rdtsc();
       ret_code = fread(buf, bytes_to_read, 1, fp);
@@ -46,11 +46,12 @@ void experiment(double bytes_to_read, int iterations, unsigned long *results) {
       // Read succeeded.
       if (ret_code == 1) {
          ret = (unsigned long)(end - strt);
+         ret -= READ_TIME_OVERHEAD;
          results[i] = ret;
       }
-   
+
       // Read failed.
-      else { 
+      else {
          if (feof(fp)) {
             printf("Error reading file. Unexpected EOF\n");
             ret = 0;
@@ -78,8 +79,8 @@ void measure_file_cache(int iterations) {
    long OneMB = pow(1024, 2);
    long OneGB = 1024*OneMB;
    long file_sizes[] = {
-      8*OneMB, 16*OneMB, 32*OneMB, 64*OneMB, 128*OneMB, 256*OneMB, 
-      512*OneMB, OneGB, 2*OneGB, 4*OneGB, 8*OneGB, 11*OneGB, 12*OneGB, 
+      8*OneMB, 16*OneMB, 32*OneMB, 64*OneMB, 128*OneMB, 256*OneMB,
+      512*OneMB, OneGB, 2*OneGB, 4*OneGB, 8*OneGB, 11*OneGB, 12*OneGB,
       13*OneGB, 14*OneGB, 15*OneGB
    };
 
@@ -93,23 +94,22 @@ void measure_file_cache(int iterations) {
       exit(0);
    }
 
-   // Loop over file sizes. 
+   // Loop over file sizes.
    for (int i = 0; i < num_sizes; i++) {
       file_size = file_sizes[i];
-      
+
       experiment(file_size, iterations, results);
-   
+
       stats_long(results, iterations, &avg, &std);
 
-      printf("Read(%lu MB), Mean(%lu cycles), STD(%lu)\n", 
+      printf("Read(%lu MB), Mean(%lu cycles), STD(%lu)\n",
             file_size/OneMB, avg, std);
-      fprintf(fpout, "Read(%lu MB), Mean(%lu cycles), STD(%lu)\n", 
+      fprintf(fpout, "Read(%lu MB), Mean(%lu cycles), STD(%lu)\n",
             file_size/OneMB, avg, std);
       fflush(fpout);
    }
 
-   // Cleanup resources. 
+   // Cleanup resources.
    fclose(fpout);
    free(results);
 }
-

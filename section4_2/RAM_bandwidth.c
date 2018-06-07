@@ -55,6 +55,8 @@ void measure_RAM_reading_bandwidth(uint64_t experiments, uint64_t iterations) {
 
             /* Update the total time for this iteration */
             iter_total += end - start;
+            iter_total -= READ_TIME_OVERHEAD;
+            iter_total -= (LOOP_OVERHEAD * arr_ndx);
             src_arr = src_arr_start;
 
         } /* END ITERATION LOOP */
@@ -140,7 +142,7 @@ void measure_RAM_writing_bandwidth(uint64_t experiments, uint64_t iterations) {
 
                 /* Use the non-temporal intrinsics to avoid caching */
                 _mm_stream_si128((__m128i *)(dest_arr + arr_ndx )+ 7, src);
-                
+
                 /* Update the src value to avoid caching */
                 src = _mm_add_epi64(src, src);
             }
@@ -150,6 +152,8 @@ void measure_RAM_writing_bandwidth(uint64_t experiments, uint64_t iterations) {
 
             /* Record and increment this iteration's value */
             iter_total += end - start;
+            iter_total -= READ_TIME_OVERHEAD;
+            iter_total -= (LOOP_OVERHEAD * arr_ndx);
 
         } /* END ITERATION LOOP */
 

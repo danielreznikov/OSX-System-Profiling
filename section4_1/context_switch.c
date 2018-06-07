@@ -59,6 +59,7 @@ void measure_proc_context_switch(uint64_t total_experiments, uint64_t iterations
 
     /* Take average of iterations and update display */
     res /= iterations;
+    res -= READ_TIME_OVERHEAD;
     results[expNo] = (double)res;
     printEntry(expNo, res);
   }
@@ -118,6 +119,7 @@ void measure_thread_context_switch(int total_experiments, int iterations) {
 
       /* Take average of iterations and update display */
       res /= iterations;
+      res -= READ_TIME_OVERHEAD;
       results[expNo] = (double)res;
       printEntry(expNo, res);
    }

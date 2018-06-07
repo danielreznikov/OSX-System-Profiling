@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <strings.h>
+#include <errno.h>
 
 /* Constants */
 #define ERR                                 -1
@@ -19,13 +20,17 @@
 #define L3_SIZE_B                           6291456
 #define SYS_MEM_FREQ                        1600000000
 #define SYS_FREQ                            1800000000
-#define READ_TIME_OVERHEAD                  190
+
+/* Contants taken from measurements */
 #define LOOP_OVERHEAD                       31
-#define SYSCALL_OVERHEAD                    162882
+#define PROCEEDURE_CALL_OVERHEAD_0          0
 #define PROCESS_CREATE_OVERHEAD             1317487
-#define THREAD_CREATE_OVERHEAD              41011
 #define PROCESS_CONTEXT_SWITCH_OVERHEAD     845000
+#define READ_TIME_OVERHEAD                  190
+#define SYSCALL_OVERHEAD                    162882
 #define THREAD_CONTEXT_SWITCH_OVERHEAD      38000
+#define THREAD_CREATE_OVERHEAD              41011
+
 
 /* Define a barrier */
 #define B __asm__ __volatile__("" ::: "memory")

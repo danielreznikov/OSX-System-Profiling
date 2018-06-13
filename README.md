@@ -1,7 +1,7 @@
 # Profiling OS and Hardware: CSE 221 - Project
 By Rebecca McKinley (mckinleyrebecca), Daniel Reznikov (danielreznikov), and Aaron Trefler (aarontrefler)
 
-Read our Project Report: https://github.com/danielreznikov/OSX-System-Profiling/Report/osx-system-measurement.pdf
+Read our Project Report: https://github.com/danielreznikov/OSX-System-Profiling/tree/master/Report/osx-system-measurement.pdf
 
 ## Running Measurements
 ### Running CPU measurements
